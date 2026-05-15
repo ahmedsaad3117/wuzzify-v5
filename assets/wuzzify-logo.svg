@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 348 201" fill="#4C3491" role="img" aria-label="Wuzzify – AI Employees">
+  
+  <g transform="translate(101 4)">
+    <rect x="0" y="0" width="25" height="64" rx="1.5"></rect>
+    <rect x="49" y="0" width="24" height="64" rx="1.5"></rect>
+    <rect x="98" y="21" width="24" height="43" rx="1.5"></rect>
+    <polygon points="18,66 48,66 48,87 27,87"></polygon>
+    <polygon points="66,66 97,66 97,87 76,87"></polygon>
+  </g>
+  
+  <text x="174" y="156" text-anchor="middle" font-family="&#39;Space Grotesk&#39;,&#39;Helvetica Neue&#39;,Arial,sans-serif" font-weight="800" font-size="52" letter-spacing="2.2">WUZZIFY</text>
+  <text x="174" y="185" text-anchor="middle" font-family="&#39;Space Grotesk&#39;,&#39;Helvetica Neue&#39;,Arial,sans-serif" font-weight="500" font-size="12" letter-spacing="6">AI EMPLOYEES</text>
+</svg>

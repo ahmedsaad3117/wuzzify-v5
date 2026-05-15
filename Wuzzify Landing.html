@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>وُزّيفاي — موظفون بالذكاء الاصطناعي</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand-colors.css">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Cairo', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          brand: {
+            50:  '#F7F4FC',
+            100: '#EFEAF8',
+            200: '#D9CFEF',
+            300: '#B9A8E6',
+            400: '#8058E0',
+            500: '#6E55B4',
+            600: '#4C3491',  // primary
+            700: '#3B286F',
+            800: '#2E1F66',
+            900: '#1C133F',
+          },
+          ink:   { DEFAULT: '#14111F', 2: '#4A4659', 3: '#7A7588' },
+          line:  '#E4E1EE',
+          wash:  '#FAF8FD',
+        },
+        boxShadow: {
+          'card':  '0 1px 0 rgba(20,17,31,0.04), 0 2px 8px rgba(20,17,31,0.04)',
+          'lift':  '0 14px 40px -12px rgba(76,52,145,0.20), 0 2px 8px rgba(20,17,31,0.04)',
+          'glow':  '0 24px 60px -20px rgba(76,52,145,0.35)',
+        },
+        borderRadius: { 'xs': '3px' },
+      },
+    },
+  };
+</script>
+
+<style>
+  :root { --wz-grad: linear-gradient(135deg,#FFFFFF 0%,#EFEAF8 38%,#B9A8E6 72%,#4C3491 100%); }
+  html { scroll-behavior: smooth; }
+  body  { font-feature-settings: "ss01","cv11"; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .display { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .num     { font-feature-settings: "tnum"; }
+  .grad-bg { background: var(--wz-grad); }
+  .grad-text {
+    background: linear-gradient(135deg,#4C3491 0%,#8058E0 60%,#B9A8E6 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  /* Subtle hero halo */
+  .hero-halo {
+    position: absolute; inset: -10% -10% 0 -10%;
+    background:
+      radial-gradient(900px 480px at 80% 10%, rgba(128,88,224,0.22), transparent 60%),
+      radial-gradient(700px 420px at 15% 30%, rgba(185,168,230,0.30), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  /* dotted backdrop */
+  .dotgrid {
+    background-image: radial-gradient(rgba(20,17,31,0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  /* card hover */
+  .agent-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+  .agent-card:hover { transform: translateY(-3px); box-shadow: var(--tw-shadow,0) 0 0; box-shadow: 0 14px 40px -12px rgba(76,52,145,0.20),0 2px 8px rgba(20,17,31,0.04); border-color: #B9A8E6; }
+  /* Wuzzify W mark — reusable inline */
+  .wmark rect, .wmark polygon { fill: currentColor; }
+  /* line-clamp helper for testimonial truncation */
+  .clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  /* Ticker */
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(50%); } }
+  .ticker-track { animation: ticker 38s linear infinite; }
+  /* Conversation dot pulse */
+  @keyframes pulse-dot { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } }
+  .pulse { animation: pulse-dot 1.6s ease-in-out infinite; }
+  /* FAQ details */
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(180deg); }
+  .chev { transition: transform .2s ease; }
+</style>
+</head>
+
+<body class="bg-white text-ink font-sans antialiased">
+
+<!-- ════════════════════════════════════════════════════════════════════
+     SVG SPRITES — reusable icons (lucide-style, 1.5px stroke, monochrome)
+══════════════════════════════════════════════════════════════════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- W Mark -->
+    <symbol id="wmark" viewBox="0 0 121 87">
+      <rect x="0"  y="0"  width="25" height="64" rx="1.5"/>
+      <rect x="49" y="0"  width="24" height="64" rx="1.5"/>
+      <rect x="98" y="21" width="24" height="43" rx="1.5"/>
+      <polygon points="18,66 48,66 48,87 27,87"/>
+      <polygon points="66,66 97,66 97,87 76,87"/>
+    </symbol>
+    <symbol id="i-sales" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 6-7"/><path d="M15 6h5v5"/>
+    </symbol>
+    <symbol id="i-support" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M4 12a8 8 0 0116 0v5a2 2 0 01-2 2h-2v-7h4"/><path d="M4 12v5a2 2 0 002 2h2v-7H4"/>
+    </symbol>
+    <symbol id="i-seo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+      <circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>
+    </symbol>
+    <symbol id="i-marketing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M3 11l16-6v14L3 13v-2z"/><path d="M7 13v5l3 1"/>
+    </symbol>
+    <symbol id="i-ocr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+      <rect x="4" y="3" width="14" height="18" rx="1"/><path d="M8 8h6M8 12h6M8 16h4"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M5 12h14"/><path d="M13 6l-7 6 7 6"/> <!-- left-pointing arrow for RTL "next" -->
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M5 12l5 5 9-11"/>
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M6 6l12 12M18 6l-12 12"/>
+    </symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
+    </symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M6 9l6 6 6-6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════════════════════════ -->
+<header class="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-line">
+  <div class="max-w-[1240px] mx-auto px-6 lg:px-10 h-[72px] flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5">
+      <svg class="wmark text-brand-600" width="26" height="19"><use href="#wmark"/></svg>
+      <span class="font-extrabold tracking-tight text-[20px] text-brand-700">وُزّيفاي</span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-9 text-[14.5px] text-ink-2 font-medium">
+      <a href="#agents"  class="hover:text-brand-600 transition">الوكلاء</a>
+      <a href="#how"     class="hover:text-brand-600 transition">آلية العمل</a>
+      <a href="#compare" class="hover:text-brand-600 transition">المقارنة</a>
+      <a href="#pricing" class="hover:text-brand-600 transition">الأسعار</a>
+      <a href="#faq"     class="hover:text-brand-600 transition">الأسئلة</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="#" class="hidden sm:inline-flex h-10 items-center px-4 text-[14px] font-semibold text-ink-2 hover:text-ink transition">تسجيل الدخول</a>
+      <a href="#cta" class="inline-flex h-10 items-center gap-2 px-5 bg-brand-600 hover:bg-brand-700 text-white text-[14px] font-semibold rounded-xs transition shadow-sm">
+        ابدأ مجاناً
+        <svg width="14" height="14"><use href="#i-arrow"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════════════════ -->
+<section class="relative overflow-hidden">
+  <div class="hero-halo"></div>
+  <div class="relative max-w-[1240px] mx-auto px-6 lg:px-10 pt-20 pb-16 lg:pt-28 lg:pb-24 grid lg:grid-cols-[1.1fr_1fr] gap-14 lg:gap-20 items-center">
+
+    <!-- copy -->
+    <div class="relative z-10">
+      <span class="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-brand-100 text-brand-700 text-[12px] font-semibold tracking-wide">
+        <span class="size-1.5 rounded-full bg-brand-600 pulse"></span>
+        موظفون بالذكاء الاصطناعي · جاهزون اليوم
+      </span>
+
+      <h1 class="display text-[44px] sm:text-[56px] lg:text-[68px] mt-6 text-ink">
+        استبدل <span class="grad-text">٥ موظفين</span><br>
+        بوكيلٍ ذكي واحد.
+      </h1>
+
+      <p class="mt-6 text-[18px] leading-loose text-ink-2 max-w-[56ch]">
+        وكلاء وُزّيفاي يديرون المبيعات والدعم والتسويق ومعالجة المستندات على مدار الساعة،
+        بأداء أسرع من فريق كامل — وبربع التكلفة. لا إجازات، لا تدريب، لا انتظار.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="#cta" class="inline-flex h-12 items-center gap-2 px-6 bg-brand-600 hover:bg-brand-700 text-white text-[15px] font-semibold rounded-xs shadow-glow transition">
+          وظّف وكيلك الآن
+          <svg width="16" height="16"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+
+      <!-- micro proofs -->
+      <dl class="mt-12 grid grid-cols-3 gap-6 max-w-[520px]">
+        <div>
+          <dt class="text-[12px] font-semibold tracking-wider text-ink-3 uppercase">معدل الحل</dt>
+          <dd class="display text-[28px] text-brand-700 num mt-1">٩٤٪</dd>
+        </div>
+        <div>
+          <dt class="text-[12px] font-semibold tracking-wider text-ink-3 uppercase">زمن الرد</dt>
+          <dd class="display text-[28px] text-brand-700 num mt-1">١٫٢ث</dd>
+        </div>
+        <div>
+          <dt class="text-[12px] font-semibold tracking-wider text-ink-3 uppercase">العمل</dt>
+          <dd class="display text-[28px] text-brand-700 num mt-1">٢٤/٧</dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- hero visual: conversation card + agent stat -->
+    <div class="relative z-10">
+      <div class="absolute -inset-8 grad-bg rounded-2xl opacity-90 blur-2xl -z-10"></div>
+
+      <!-- main card -->
+      <div class="bg-white border border-line rounded-xl shadow-lift p-5 relative">
+        <!-- card header -->
+        <div class="flex items-center justify-between pb-4 border-b border-line">
+          <div class="flex items-center gap-3">
+            <div class="size-9 rounded-lg bg-brand-600 text-white grid place-items-center">
+              <svg class="wmark" width="16" height="11"><use href="#wmark"/></svg>
+            </div>
+            <div>
+              <div class="font-semibold text-[14px]">وكيل المبيعات · سارة</div>
+              <div class="text-[11.5px] text-ink-3 flex items-center gap-1.5">
+                <span class="size-1.5 rounded-full bg-emerald-500 pulse"></span>
+                نشط الآن · يتعامل مع ٢٤ محادثة
+              </div>
+            </div>
+          </div>
+          <span class="text-[11px] tracking-wider font-semibold text-brand-700 bg-brand-100 px-2 py-1 rounded-xs">SALES</span>
+        </div>
+
+        <!-- messages -->
+        <div class="mt-4 space-y-3 text-[13.5px]">
+          <div class="flex gap-2 items-start justify-end">
+            <div class="bg-wash border border-line rounded-lg px-3 py-2 max-w-[78%]">
+              مرحباً، أبحث عن باقة لـ ٥٠ موظف في فريقي. كم سيكلفني ذلك شهرياً؟
+            </div>
+          </div>
+          <div class="flex gap-2 items-start">
+            <div class="bg-brand-600 text-white rounded-lg px-3 py-2 max-w-[78%]">
+              أهلاً بك. باقة الأعمال لـ ٥٠ مستخدم تبدأ من <b class="num">٢٬٤٠٠</b> ر.س شهرياً، وتشمل ٣ وكلاء.
+              هل تفضّل عرضاً مخصصاً يشمل التكامل مع نظامكم؟
+            </div>
+          </div>
+          <div class="flex gap-2 items-start justify-end">
+            <div class="bg-wash border border-line rounded-lg px-3 py-2 max-w-[78%]">
+              نعم، نستخدم Salesforce. هل التكامل مدعوم؟
+            </div>
+          </div>
+          <div class="flex gap-2 items-start">
+            <div class="bg-brand-600 text-white rounded-lg px-3 py-2 max-w-[78%]">
+              نعم. سأرسل لك مقترحاً خلال دقائق مع روابط التكامل.
+            </div>
+          </div>
+        </div>
+
+        <!-- footer status -->
+        <div class="mt-4 pt-4 border-t border-line flex items-center justify-between text-[11.5px] text-ink-3">
+          <span class="num">المحادثة #٢٬٣٤١ · اليوم ٠٩:٤٢</span>
+          <span class="flex items-center gap-1.5 text-brand-700 font-semibold">
+            <svg width="12" height="12"><use href="#i-bolt"/></svg>
+            ردّ خلال ١٫٢ث
+          </span>
+        </div>
+      </div>
+
+      <!-- floating stat card -->
+      <div class="absolute -bottom-8 left-2 sm:left-6 bg-white border border-line rounded-lg p-4 shadow-lift w-[200px]">
+        <div class="text-[11px] font-semibold tracking-wider text-ink-3 uppercase">صفقات أُغلقت اليوم</div>
+        <div class="display text-[32px] text-ink num mt-1">٤٧</div>
+        <div class="text-[12px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5">
+          <span>↑ ٢٢٪</span>
+          <span class="text-ink-3 font-normal">عن أمس</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     AGENTS GRID
+══════════════════════════════════════════════════════════════════════ -->
+<section id="agents" class="py-24 lg:py-32">
+  <div class="max-w-[1240px] mx-auto px-6 lg:px-10">
+
+    <div class="max-w-3xl mb-16">
+      <span class="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-brand-100 px-2.5 py-1 rounded-xs">المنتج</span>
+      <h2 class="display text-[40px] lg:text-[52px] mt-4">
+        خمسة وكلاء. <span class="grad-text">تخصّص واحد</span> لكلٍّ منهم.
+      </h2>
+      <p class="mt-5 text-[18px] leading-loose text-ink-2">
+        كل وكيل مُدرَّب على وظيفة بعينها — لا قوالب عامّة، لا ردود مبهمة. أَطلِق الفريق الذي تحتاجه فقط.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- Sales — featured (spans 2 on lg) -->
+      <article class="agent-card lg:col-span-2 lg:row-span-1 relative bg-brand-600 text-white rounded-xl p-8 overflow-hidden">
+        <svg class="wmark absolute -top-6 -left-6 opacity-10" width="280" height="200"><use href="#wmark"/></svg>
+        <div class="relative">
+          <span class="text-[11px] font-bold tracking-[0.2em] uppercase opacity-80">SALES · مبيعات</span>
+          <h3 class="display text-[32px] mt-3">وكيل المبيعات يُغلق الصفقات وأنت نائم.</h3>
+          <p class="mt-4 text-[15.5px] leading-loose opacity-90 max-w-[52ch]">
+            يتعرّف على العملاء المحتملين، يجيب عن أسئلتهم، ويرسل العروض المخصّصة مباشرة من CRM الخاص بك.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <span class="bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-xs text-[12.5px] font-medium">تكامل مع Salesforce و HubSpot</span>
+            <span class="bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-xs text-[12.5px] font-medium">عربية فصحى ولهجات الخليج</span>
+          </div>
+          <div class="mt-8 grid grid-cols-3 gap-6 border-t border-white/15 pt-6 max-w-md">
+            <div><div class="text-[11px] uppercase tracking-wider opacity-70">صفقات/يوم</div><div class="display text-[24px] num mt-1">٤٧</div></div>
+            <div><div class="text-[11px] uppercase tracking-wider opacity-70">معدل التحويل</div><div class="display text-[24px] num mt-1">١٨٪</div></div>
+            <div><div class="text-[11px] uppercase tracking-wider opacity-70">جاهز خلال</div><div class="display text-[24px] num mt-1">١٠د</div></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Support -->
+      <article class="agent-card bg-white border border-line rounded-xl p-7 shadow-card">
+        <div class="size-11 rounded-lg bg-brand-100 text-brand-700 grid place-items-center mb-5">
+          <svg width="22" height="22"><use href="#i-support"/></svg>
+        </div>
+        <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600">SUPPORT · دعم</span>
+        <h3 class="font-bold text-[22px] mt-2 text-ink">دعم العملاء بلا انتظار.</h3>
+        <p class="mt-3 text-[14.5px] leading-loose text-ink-2">
+          ٢٬٣٤١ محادثة. وكيل واحد. الثلاثاء الماضي. ٩٤٪ حُلَّت دون تدخّل بشري.
+        </p>
+        <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-brand-700 font-semibold text-[14px] hover:gap-2.5 transition-all">
+          المزيد عن الدعم
+          <svg width="14" height="14"><use href="#i-arrow"/></svg>
+        </a>
+      </article>
+
+      <!-- SEO -->
+      <article class="agent-card bg-white border border-line rounded-xl p-7 shadow-card">
+        <div class="size-11 rounded-lg bg-brand-100 text-brand-700 grid place-items-center mb-5">
+          <svg width="22" height="22"><use href="#i-seo"/></svg>
+        </div>
+        <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600">SEO · سيو</span>
+        <h3 class="font-bold text-[22px] mt-2 text-ink">صفحات تتصدّر جوجل.</h3>
+        <p class="mt-3 text-[14.5px] leading-loose text-ink-2">
+          يبحث عن الكلمات المفتاحية، يكتب المحتوى، ويُحسّن الميتا — أسبوعياً، تلقائياً.
+        </p>
+        <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-brand-700 font-semibold text-[14px] hover:gap-2.5 transition-all">
+          المزيد عن السيو
+          <svg width="14" height="14"><use href="#i-arrow"/></svg>
+        </a>
+      </article>
+
+      <!-- Marketing -->
+      <article class="agent-card bg-white border border-line rounded-xl p-7 shadow-card">
+        <div class="size-11 rounded-lg bg-brand-100 text-brand-700 grid place-items-center mb-5">
+          <svg width="22" height="22"><use href="#i-marketing"/></svg>
+        </div>
+        <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600">MARKETING · تسويق</span>
+        <h3 class="font-bold text-[22px] mt-2 text-ink">حملات بريد ومنشورات يومية.</h3>
+        <p class="mt-3 text-[14.5px] leading-loose text-ink-2">
+          يصمّم، يكتب، ويُجدوِل — لانستغرام، تويتر، ولينكدإن. تقارير أسبوعية تلقائية.
+        </p>
+        <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-brand-700 font-semibold text-[14px] hover:gap-2.5 transition-all">
+          المزيد عن التسويق
+          <svg width="14" height="14"><use href="#i-arrow"/></svg>
+        </a>
+      </article>
+
+      <!-- OCR -->
+      <article class="agent-card bg-white border border-line rounded-xl p-7 shadow-card">
+        <div class="size-11 rounded-lg bg-brand-100 text-brand-700 grid place-items-center mb-5">
+          <svg width="22" height="22"><use href="#i-ocr"/></svg>
+        </div>
+        <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600">OCR · مستندات</span>
+        <h3 class="font-bold text-[22px] mt-2 text-ink">من ورقة إلى بيانات. فوراً.</h3>
+        <p class="mt-3 text-[14.5px] leading-loose text-ink-2">
+          فواتير، عقود، هوايا، شيكات — تُستخرج وتُصنَّف بدقّة ٩٩٪، عربي وإنجليزي.
+        </p>
+        <a href="#" class="mt-5 inline-flex items-center gap-1.5 text-brand-700 font-semibold text-[14px] hover:gap-2.5 transition-all">
+          المزيد عن المستندات
+          <svg width="14" height="14"><use href="#i-arrow"/></svg>
+        </a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════════════════════════════════════ -->
+<section id="how" class="bg-wash py-24 lg:py-32 border-y border-line relative overflow-hidden">
+  <div class="absolute inset-0 dotgrid opacity-40"></div>
+  <div class="relative max-w-[1240px] mx-auto px-6 lg:px-10">
+
+    <div class="max-w-3xl mb-16">
+      <span class="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-white border border-line px-2.5 py-1 rounded-xs">آلية العمل</span>
+      <h2 class="display text-[40px] lg:text-[52px] mt-4">
+        ثلاث خطوات. <span class="grad-text">دقائق معدودة.</span>
+      </h2>
+    </div>
+
+    <ol class="grid md:grid-cols-3 gap-6 relative">
+      <li class="bg-white border border-line rounded-xl p-8 relative">
+        <div class="absolute top-6 left-6 display text-[64px] text-brand-100 leading-none num">٠١</div>
+        <h3 class="font-bold text-[22px] mt-16">اختر وكيلك</h3>
+        <p class="mt-3 text-[14.5px] leading-loose text-ink-2">
+          خمسة قوالب جاهزة: مبيعات، دعم، سيو، تسويق، أو مستندات. اختر وابدأ.
+        </p>
+      </li>
+      <li class="bg-white border border-line rounded-xl p-8 relative">
+        <div class="absolute top-6 left-6 display text-[64px] text-brand-100 leading-none num">٠٢</div>
+        <h3 class="font-bold text-[22px] mt-16">درّبه على بياناتك</h3>
+        <p class="mt-3 text-[14.5px] leading-loose text-ink-2">
+          ارفع المستندات أو وصِّل أنظمتك. الوكيل يتعلّم لهجة شركتك خلال ١٠ دقائق.
+        </p>
+      </li>
+      <li class="bg-white border border-line rounded-xl p-8 relative">
+        <div class="absolute top-6 left-6 display text-[64px] text-brand-100 leading-none num">٠٣</div>
+        <h3 class="font-bold text-[22px] mt-16">أَطلِقه ٢٤/٧</h3>
+        <p class="mt-3 text-[14.5px] leading-loose text-ink-2">
+          يعمل على واتساب، البريد، الموقع، أو نظامك الداخلي. أنت تراقب فقط.
+        </p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     COMPARISON
+══════════════════════════════════════════════════════════════════════ -->
+<section id="compare" class="py-24 lg:py-32">
+  <div class="max-w-[1240px] mx-auto px-6 lg:px-10">
+
+    <div class="max-w-3xl mb-14">
+      <span class="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-brand-100 px-2.5 py-1 rounded-xs">المقارنة</span>
+      <h2 class="display text-[40px] lg:text-[52px] mt-4">
+        موظف تقليدي مقابل <span class="grad-text">وكيل وُزّيفاي.</span>
+      </h2>
+      <p class="mt-5 text-[18px] leading-loose text-ink-2">الأرقام تتحدّث عن نفسها.</p>
+    </div>
+
+    <div class="border border-line rounded-xl overflow-hidden">
+      <div class="grid grid-cols-[1.4fr_1fr_1.2fr] bg-wash text-[12px] font-bold tracking-wider uppercase text-ink-3">
+        <div class="px-6 py-4">المعيار</div>
+        <div class="px-6 py-4 border-s border-line">موظف تقليدي</div>
+        <div class="px-6 py-4 border-s border-line bg-brand-600 text-white">وكيل وُزّيفاي</div>
+      </div>
+
+      <!-- rows -->
+      <div class="divide-y divide-line">
+        <div class="grid grid-cols-[1.4fr_1fr_1.2fr] items-center">
+          <div class="px-6 py-5 font-semibold">التكلفة الشهرية</div>
+          <div class="px-6 py-5 border-s border-line text-ink-2 num">١٢٬٠٠٠ ر.س +</div>
+          <div class="px-6 py-5 border-s border-line bg-brand-50 text-brand-700 font-bold num">٢٬٤٠٠ ر.س</div>
+        </div>
+        <div class="grid grid-cols-[1.4fr_1fr_1.2fr] items-center">
+          <div class="px-6 py-5 font-semibold">ساعات العمل</div>
+          <div class="px-6 py-5 border-s border-line text-ink-2 num">٨ ساعات / يوم</div>
+          <div class="px-6 py-5 border-s border-line bg-brand-50 text-brand-700 font-bold num">٢٤ ساعة × ٧ أيام</div>
+        </div>
+        <div class="grid grid-cols-[1.4fr_1fr_1.2fr] items-center">
+          <div class="px-6 py-5 font-semibold">زمن الاستجابة</div>
+          <div class="px-6 py-5 border-s border-line text-ink-2 num">دقائق إلى ساعات</div>
+          <div class="px-6 py-5 border-s border-line bg-brand-50 text-brand-700 font-bold num">١٫٢ ثانية</div>
+        </div>
+        <div class="grid grid-cols-[1.4fr_1fr_1.2fr] items-center">
+          <div class="px-6 py-5 font-semibold">السعة اليومية</div>
+          <div class="px-6 py-5 border-s border-line text-ink-2 num">~ ٥٠ محادثة</div>
+          <div class="px-6 py-5 border-s border-line bg-brand-50 text-brand-700 font-bold num">٢٬٣٤١ محادثة</div>
+        </div>
+        <div class="grid grid-cols-[1.4fr_1fr_1.2fr] items-center">
+          <div class="px-6 py-5 font-semibold">الإجازات والغياب</div>
+          <div class="px-6 py-5 border-s border-line text-ink-2 inline-flex items-center gap-2"><svg class="text-red-500" width="16" height="16"><use href="#i-x"/></svg> ٢١ يوم/سنة</div>
+          <div class="px-6 py-5 border-s border-line bg-brand-50 text-brand-700 font-bold inline-flex items-center gap-2"><svg class="text-brand-600" width="16" height="16"><use href="#i-check"/></svg> صفر</div>
+        </div>
+        <div class="grid grid-cols-[1.4fr_1fr_1.2fr] items-center">
+          <div class="px-6 py-5 font-semibold">مدة التدريب</div>
+          <div class="px-6 py-5 border-s border-line text-ink-2 num">٤–٨ أسابيع</div>
+          <div class="px-6 py-5 border-s border-line bg-brand-50 text-brand-700 font-bold num">١٠ دقائق</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     STATS — dark band
+══════════════════════════════════════════════════════════════════════ -->
+<section class="relative bg-ink text-white py-20 overflow-hidden">
+  <div class="absolute inset-0 opacity-30" style="background:radial-gradient(800px 400px at 80% 50%,rgba(128,88,224,0.35),transparent 60%),radial-gradient(800px 400px at 20% 50%,rgba(76,52,145,0.35),transparent 60%)"></div>
+  <div class="relative max-w-[1240px] mx-auto px-6 lg:px-10 grid md:grid-cols-4 gap-8 lg:gap-4">
+    <div>
+      <div class="display text-[64px] grad-text num">٣٠٠+</div>
+      <div class="text-[14px] text-white/70 mt-1">شركة تستخدم وُزّيفاي</div>
+    </div>
+    <div>
+      <div class="display text-[64px] grad-text num">٢.٤م</div>
+      <div class="text-[14px] text-white/70 mt-1">محادثة في الشهر</div>
+    </div>
+    <div>
+      <div class="display text-[64px] grad-text num">٩٤٪</div>
+      <div class="text-[14px] text-white/70 mt-1">معدّل حل المشكلات</div>
+    </div>
+    <div>
+      <div class="display text-[64px] grad-text num">١٫٢ث</div>
+      <div class="text-[14px] text-white/70 mt-1">متوسط زمن الرد</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PRICING
+══════════════════════════════════════════════════════════════════════ -->
+<section id="pricing" class="py-24 lg:py-32">
+  <div class="max-w-[1240px] mx-auto px-6 lg:px-10">
+
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-brand-100 px-2.5 py-1 rounded-xs">الأسعار</span>
+      <h2 class="display text-[40px] lg:text-[52px] mt-4">
+        ادفع لقاء <span class="grad-text">وكلاء</span>. لا لقاء مقاعد.
+      </h2>
+      <p class="mt-5 text-[17px] leading-loose text-ink-2">
+        ٧ أيام تجربة مجانية. بدون بطاقة. ألغِ في أي وقت.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-5">
+
+      <!-- Starter -->
+      <div class="bg-white border border-line rounded-xl p-8 flex flex-col">
+        <h3 class="font-bold text-[20px]">ابتدائي</h3>
+        <p class="text-[14px] text-ink-2 mt-1">للشركات الناشئة وفِرق المؤسس الواحد.</p>
+        <div class="mt-6 flex items-baseline gap-2">
+          <span class="display text-[48px] text-ink num">٤٩٠</span>
+          <span class="text-ink-3 text-[14px]">ر.س / شهر</span>
+        </div>
+        <ul class="mt-6 space-y-3 text-[14px] text-ink-2 flex-1">
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> وكيل واحد بخيارك</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> <span class="num">١٬٠٠٠</span> محادثة شهرياً</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> تكاملات أساسية</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> دعم عبر البريد</li>
+        </ul>
+        <a href="#" class="mt-8 inline-flex h-11 items-center justify-center px-6 border border-line hover:border-brand-300 text-ink font-semibold text-[14px] rounded-xs transition">ابدأ التجربة</a>
+      </div>
+
+      <!-- Pro — highlighted -->
+      <div class="bg-brand-600 text-white rounded-xl p-8 flex flex-col relative shadow-glow ring-1 ring-brand-700">
+        <span class="absolute -top-3 right-6 bg-brand-100 text-brand-700 text-[11px] font-bold tracking-wider uppercase px-3 py-1 rounded-xs">الأكثر طلباً</span>
+        <h3 class="font-bold text-[20px]">مهني</h3>
+        <p class="text-[14px] text-white/75 mt-1">للفِرق الناضجة التي تحتاج فريقاً ذكياً كاملاً.</p>
+        <div class="mt-6 flex items-baseline gap-2">
+          <span class="display text-[48px] num">١٬٤٩٠</span>
+          <span class="text-white/70 text-[14px]">ر.س / شهر</span>
+        </div>
+        <ul class="mt-6 space-y-3 text-[14px] text-white/90 flex-1">
+          <li class="flex items-start gap-2"><svg class="text-brand-200 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> ٣ وكلاء يعملون معاً</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-200 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> <span class="num">١٠٬٠٠٠</span> محادثة شهرياً</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-200 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> جميع التكاملات</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-200 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> تدريب على بياناتك</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-200 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> دعم أولوية ٢٤/٧</li>
+        </ul>
+        <a href="#" class="mt-8 inline-flex h-11 items-center justify-center px-6 bg-white text-brand-700 hover:bg-brand-50 font-semibold text-[14px] rounded-xs transition">ابدأ التجربة</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="bg-white border border-line rounded-xl p-8 flex flex-col">
+        <h3 class="font-bold text-[20px]">مؤسّسي</h3>
+        <p class="text-[14px] text-ink-2 mt-1">للشركات الكبيرة بحجم استخدام مرتفع.</p>
+        <div class="mt-6 flex items-baseline gap-2">
+          <span class="display text-[34px] text-ink">عرض مخصّص</span>
+        </div>
+        <ul class="mt-6 space-y-3 text-[14px] text-ink-2 flex-1">
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> وكلاء غير محدودين</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> محادثات غير محدودة</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> نشر على بيئتك الخاصة</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> مدير حساب مخصّص</li>
+          <li class="flex items-start gap-2"><svg class="text-brand-600 mt-0.5 shrink-0" width="16" height="16"><use href="#i-check"/></svg> اتفاقية مستوى خدمة</li>
+        </ul>
+        <a href="#" class="mt-8 inline-flex h-11 items-center justify-center px-6 border border-line hover:border-brand-300 text-ink font-semibold text-[14px] rounded-xs transition">تواصل مع المبيعات</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     FAQ
+══════════════════════════════════════════════════════════════════════ -->
+<section id="faq" class="bg-wash border-y border-line py-24">
+  <div class="max-w-[920px] mx-auto px-6 lg:px-10">
+    <div class="mb-12">
+      <span class="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-white border border-line px-2.5 py-1 rounded-xs">الأسئلة الشائعة</span>
+      <h2 class="display text-[36px] lg:text-[44px] mt-4">كل ما تودّ معرفته. باختصار.</h2>
+    </div>
+
+    <div class="space-y-3">
+      <details class="group bg-white border border-line rounded-xl p-6 open:shadow-card" open>
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-bold text-[17px]">هل وكلاء وُزّيفاي يفهمون اللهجات العربية المختلفة؟</span>
+          <svg class="chev text-ink-3 shrink-0" width="20" height="20"><use href="#i-chev"/></svg>
+        </summary>
+        <p class="mt-4 text-[14.5px] leading-loose text-ink-2">
+          نعم. الوكلاء مُدرَّبون على العربية الفصحى ولهجات الخليج ومصر والشام. يمكنك أيضاً
+          رفع أمثلة من محادثاتك السابقة لضبط اللهجة لتناسب جمهورك بدقة.
+        </p>
+      </details>
+
+      <details class="group bg-white border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-bold text-[17px]">كم من الوقت يستغرق تشغيل وكيلي؟</span>
+          <svg class="chev text-ink-3 shrink-0" width="20" height="20"><use href="#i-chev"/></svg>
+        </summary>
+        <p class="mt-4 text-[14.5px] leading-loose text-ink-2">
+          عشر دقائق في المتوسط. اختر القالب، صل مصادر البيانات، ودع التدريب التلقائي يقوم بالباقي.
+        </p>
+      </details>
+
+      <details class="group bg-white border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-bold text-[17px]">أين تُخزَّن بياناتي؟</span>
+          <svg class="chev text-ink-3 shrink-0" width="20" height="20"><use href="#i-chev"/></svg>
+        </summary>
+        <p class="mt-4 text-[14.5px] leading-loose text-ink-2">
+          في مراكز بيانات داخل المملكة العربية السعودية وفقاً لمتطلبات الهيئة السعودية للبيانات والذكاء الاصطناعي (سدايا). تشفير كامل أثناء النقل والتخزين.
+        </p>
+      </details>
+
+      <details class="group bg-white border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-bold text-[17px]">هل يمكنني ربط الوكيل بأنظمتي الحالية؟</span>
+          <svg class="chev text-ink-3 shrink-0" width="20" height="20"><use href="#i-chev"/></svg>
+        </summary>
+        <p class="mt-4 text-[14.5px] leading-loose text-ink-2">
+          نعم. تكاملات جاهزة مع Salesforce، HubSpot، Zoho، Zendesk، Intercom، واتساب بزنس، الجيميل، وأكثر من ٥٠ أداة أخرى. وواجهة API مفتوحة لأي ربط مخصّص.
+        </p>
+      </details>
+
+      <details class="group bg-white border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="font-bold text-[17px]">ماذا لو لم يكن الوكيل مناسباً؟</span>
+          <svg class="chev text-ink-3 shrink-0" width="20" height="20"><use href="#i-chev"/></svg>
+        </summary>
+        <p class="mt-4 text-[14.5px] leading-loose text-ink-2">
+          ألغِ في أي وقت دون أسئلة. التجربة المجانية ٧ أيام لا تتطلّب بطاقة ائتمانية.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     CTA BANNER
+══════════════════════════════════════════════════════════════════════ -->
+<section id="cta" class="py-24 lg:py-32 relative overflow-hidden">
+  <div class="max-w-[1240px] mx-auto px-6 lg:px-10">
+    <div class="relative rounded-2xl overflow-hidden grad-bg p-12 lg:p-20">
+      <svg class="wmark absolute -top-10 -right-10 text-white/15" width="320" height="220"><use href="#wmark"/></svg>
+      <div class="relative max-w-2xl">
+        <h2 class="display text-[36px] lg:text-[52px] text-white">
+          فريقك الذكي. جاهز خلال ١٠ دقائق.
+        </h2>
+        <p class="mt-5 text-[18px] leading-loose text-white/90 max-w-[52ch]">
+          لا حاجة لبطاقة ائتمان. لا التزامات. فقط جرّب وقرّر.
+        </p>
+        <form class="mt-8 flex flex-wrap gap-3 max-w-md">
+          <input type="email" placeholder="البريد الإلكتروني للعمل"
+                 class="flex-1 min-w-[220px] h-12 px-4 rounded-xs bg-white border border-white/0 text-ink placeholder:text-ink-3 focus:outline-none focus:border-brand-600 text-[14px]">
+          <button type="submit" class="h-12 px-6 bg-ink hover:bg-brand-900 text-white text-[14px] font-semibold rounded-xs transition inline-flex items-center gap-2">
+            ابدأ التجربة المجانية
+            <svg width="16" height="16"><use href="#i-arrow"/></svg>
+          </button>
+        </form>
+        <p class="mt-3 text-[12.5px] text-white/75">٧ أيام كاملة · إلغاء بنقرة واحدة</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════════════════ -->
+<footer class="border-t border-line bg-white">
+  <div class="max-w-[1240px] mx-auto px-6 lg:px-10 py-16 grid lg:grid-cols-[1.4fr_1fr_1fr_1fr] gap-12">
+    <div>
+      <a href="#" class="flex items-center gap-2.5">
+        <svg class="wmark text-brand-600" width="28" height="20"><use href="#wmark"/></svg>
+        <span class="font-extrabold tracking-tight text-[22px] text-brand-700">وُزّيفاي</span>
+      </a>
+      <p class="mt-5 text-[14px] leading-loose text-ink-2 max-w-sm">
+        موظفون بالذكاء الاصطناعي للسوق العربي. مقرّنا الرياض والقاهرة.
+      </p>
+    </div>
+
+    <div>
+      <h4 class="text-[12px] font-bold tracking-widest uppercase text-ink-3 mb-4">المنتج</h4>
+      <ul class="space-y-3 text-[14px] text-ink-2">
+        <li><a href="#" class="hover:text-brand-700 transition">وكيل المبيعات</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">وكيل الدعم</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">وكيل السيو</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">وكيل التسويق</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">وكيل المستندات</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-[12px] font-bold tracking-widest uppercase text-ink-3 mb-4">الشركة</h4>
+      <ul class="space-y-3 text-[14px] text-ink-2">
+        <li><a href="#" class="hover:text-brand-700 transition">من نحن</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">المدوّنة</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">الوظائف</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">تواصل معنا</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-[12px] font-bold tracking-widest uppercase text-ink-3 mb-4">قانوني</h4>
+      <ul class="space-y-3 text-[14px] text-ink-2">
+        <li><a href="#" class="hover:text-brand-700 transition">الخصوصية</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">الشروط</a></li>
+        <li><a href="#" class="hover:text-brand-700 transition">الأمن</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-line">
+    <div class="max-w-[1240px] mx-auto px-6 lg:px-10 py-6 flex flex-wrap items-center justify-between gap-3 text-[12.5px] text-ink-3">
+      <div class="num">© ٢٠٢٦ وُزّيفاي. كل الحقوق محفوظة.</div>
+      <div>صُنع بإتقان في الرياض والقاهرة.</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

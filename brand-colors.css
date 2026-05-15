@@ -1,0 +1,24 @@
+/* Wuzzify — extracted brand tokens (May 2026)
+   Source: brand guidelines deck + logo lockup PNG
+   Sampled with pixel inspection of the supplied artwork. */
+
+:root {
+  /* ── Core brand ─────────────────────────────────────────── */
+  --wz-purple:        #4C3491;  /* primary logo / brand mark */
+  --wz-purple-deep:   #2E1F66;  /* darker variant — headings on light bg */
+  --wz-purple-soft:   #6E55B4;  /* secondary — hover, supporting accents  */
+  --wz-violet:        #8058E0;  /* gradient mid-tone (from guideline pages) */
+  --wz-lilac:         #B9A8E6;  /* gradient light tone */
+  --wz-lilac-wash:    #EFEAF8;  /* tinted surface / pill background */
+
+  /* ── Neutrals ───────────────────────────────────────────── */
+  --wz-bg:            #F4F4F4;  /* page background (from artwork) */
+  --wz-surface:       #FFFFFF;  /* card surface */
+  --wz-ink:           #14111F;  /* primary text */
+  --wz-ink-2:         #4A4659;  /* secondary text */
+  --wz-line:          #E4E1EE;  /* hairline */
+
+  /* ── Signature gradient ────────────────────────────────── */
+  --wz-gradient:
+    linear-gradient(135deg, #FFFFFF 0%, #EFEAF8 38%, #B9A8E6 72%, #4C3491 100%);
+}
