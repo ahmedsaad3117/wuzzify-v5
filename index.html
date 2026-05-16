@@ -784,7 +784,7 @@
     try {
       await sendContactForm("", email, "CTA email signup");
       telegramContactForm.reset();
-      telegramContactStatus.textContent = "تم إرسال بياناتك إلى تيليجرام.";
+      telegramContactStatus.textContent = "تم إرسال بياناتك وسوف يتم التواصل معك قريبا.";
     } catch (error) {
       telegramContactStatus.textContent = "تعذّر الإرسال حالياً. حاول مرة أخرى بعد قليل.";
     } finally {
