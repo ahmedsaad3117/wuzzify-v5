@@ -39,6 +39,22 @@ tailwind.config.ts
 
 All components are server components (no `"use client"` directive needed) since they're pure markup. The FAQ uses native `<details>` so no client JS required.
 
+## Telegram lead capture
+
+The CTA email form now posts to `app/api/contact/route.ts` and forwards submissions to Telegram.
+
+Set one of these environment variable pairs before running the app:
+
+- `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`
+- `BOT_TOKEN` and `CHAT_ID`
+
+Example `.env.local`:
+
+```bash
+TELEGRAM_BOT_TOKEN=YOUR_BOT_TOKEN
+TELEGRAM_CHAT_ID=YOUR_CHAT_ID
+```
+
 ## Brand tokens
 
 ```ts

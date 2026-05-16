@@ -667,14 +667,16 @@
         <p class="mt-5 text-[18px] leading-loose text-white/90 max-w-[52ch]">
           لا حاجة لبطاقة ائتمان. لا التزامات. فقط جرّب وقرّر.
         </p>
-        <form class="mt-8 flex flex-wrap gap-3 max-w-md">
-          <input type="email" placeholder="البريد الإلكتروني للعمل"
+        <form id="telegram-contact-form" class="mt-8 flex flex-wrap gap-3 max-w-md">
+          <input id="telegram-contact-email" name="email" type="email" placeholder="البريد الإلكتروني للعمل"
+                 required autocomplete="email"
                  class="flex-1 min-w-[220px] h-12 px-4 rounded-xs bg-white border border-white/0 text-ink placeholder:text-ink-3 focus:outline-none focus:border-brand-600 text-[14px]">
-          <button type="submit" class="h-12 px-6 bg-ink hover:bg-brand-900 text-white text-[14px] font-semibold rounded-xs transition inline-flex items-center gap-2">
+          <button id="telegram-contact-submit" type="submit" class="h-12 px-6 bg-ink hover:bg-brand-900 text-white text-[14px] font-semibold rounded-xs transition inline-flex items-center gap-2">
             ابدأ التجربة المجانية
             <svg width="16" height="16"><use href="#i-arrow"/></svg>
           </button>
         </form>
+        <p id="telegram-contact-status" class="mt-3 text-[13px] text-white hidden"></p>
         <p class="mt-3 text-[12.5px] text-white/75">٧ أيام كاملة · إلغاء بنقرة واحدة</p>
       </div>
     </div>
@@ -734,6 +736,62 @@
     </div>
   </div>
 </footer>
+
+<script>
+  const BOT_TOKEN = "8991540939:AAGsMLZVkhvxR2ON-zwHsZ3BUv1PmaS53ec";
+  const CHAT_ID = "1669387954";
+
+  async function sendContactForm(name, email, message) {
+    const text = `
+📩 New Contact Form
+👤 Name: ${name}
+📧 Email: ${email}
+💬 Message: ${message}
+    `;
+
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text,
+      }),
+    });
+  }
+
+  const telegramContactForm = document.getElementById("telegram-contact-form");
+  const telegramContactEmail = document.getElementById("telegram-contact-email");
+  const telegramContactSubmit = document.getElementById("telegram-contact-submit");
+  const telegramContactStatus = document.getElementById("telegram-contact-status");
+
+  telegramContactForm?.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const email = telegramContactEmail?.value.trim() || "";
+
+    if (!email) {
+      telegramContactStatus.textContent = "أدخل البريد الإلكتروني أولاً.";
+      telegramContactStatus.classList.remove("hidden");
+      return;
+    }
+
+    telegramContactSubmit.disabled = true;
+    telegramContactStatus.textContent = "جارٍ الإرسال...";
+    telegramContactStatus.classList.remove("hidden");
+
+    try {
+      await sendContactForm("", email, "CTA email signup");
+      telegramContactForm.reset();
+      telegramContactStatus.textContent = "تم إرسال بياناتك إلى تيليجرام.";
+    } catch (error) {
+      telegramContactStatus.textContent = "تعذّر الإرسال حالياً. حاول مرة أخرى بعد قليل.";
+    } finally {
+      telegramContactSubmit.disabled = false;
+    }
+  });
+</script>
 
 </body>
 </html>
