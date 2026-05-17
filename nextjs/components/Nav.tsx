@@ -15,7 +15,7 @@ export default function Nav() {
         <a href="#" className="flex items-center gap-2.5">
           <Icon id="wmark" width={26} height={19} className="text-brand-600" />
           <span className="font-extrabold tracking-tight text-[20px] text-brand-700">
-            وُزّيفاي
+            وُظيفاي
           </span>
         </a>
 

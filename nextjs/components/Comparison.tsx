@@ -32,7 +32,7 @@ export default function Comparison() {
             المقارنة
           </span>
           <h2 className="display text-[40px] lg:text-[52px] mt-4">
-            موظف تقليدي مقابل <span className="grad-text">وكيل وُزّيفاي.</span>
+            موظف تقليدي مقابل <span className="grad-text">وكيل وُظيفاي.</span>
           </h2>
           <p className="mt-5 text-[18px] leading-loose text-ink-2">الأرقام تتحدّث عن نفسها.</p>
         </div>
@@ -41,7 +41,7 @@ export default function Comparison() {
           <div className="grid grid-cols-[1.4fr_1fr_1.2fr] bg-wash text-[12px] font-bold tracking-wider uppercase text-ink-3">
             <div className="px-6 py-4">المعيار</div>
             <div className="px-6 py-4 border-s border-line">موظف تقليدي</div>
-            <div className="px-6 py-4 border-s border-line bg-brand-600 text-white">وكيل وُزّيفاي</div>
+            <div className="px-6 py-4 border-s border-line bg-brand-600 text-white">وكيل وُظيفاي</div>
           </div>
           <div className="divide-y divide-line">
             {rows.map((r) => (

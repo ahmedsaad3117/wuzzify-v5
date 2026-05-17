@@ -23,7 +23,7 @@ export default function Footer() {
           <a href="#" className="flex items-center gap-2.5">
             <Icon id="wmark" width={28} height={20} className="text-brand-600" />
             <span className="font-extrabold tracking-tight text-[22px] text-brand-700">
-              وُزّيفاي
+              وُظيفاي
             </span>
           </a>
           <p className="mt-5 text-[14px] leading-loose text-ink-2 max-w-sm">
@@ -51,7 +51,7 @@ export default function Footer() {
 
       <div className="border-t border-line">
         <div className="max-w-[1240px] mx-auto px-6 lg:px-10 py-6 flex flex-wrap items-center justify-between gap-3 text-[12.5px] text-ink-3">
-          <div className="num">© ٢٠٢٦ وُزّيفاي. كل الحقوق محفوظة.</div>
+          <div className="num">© ٢٠٢٦ وُظيفاي. كل الحقوق محفوظة.</div>
           <div>صُنع بإتقان في الرياض والقاهرة.</div>
         </div>
       </div>
