@@ -1,32 +1,24 @@
-const steps = [
-  {
-    n: "٠١",
-    title: "اختر وكيلك",
-    body: "خمسة قوالب جاهزة: مبيعات، دعم، سيو، تسويق، أو مستندات. اختر وابدأ.",
-  },
-  {
-    n: "٠٢",
-    title: "درّبه على بياناتك",
-    body: "ارفع المستندات أو وصِّل أنظمتك. الوكيل يتعلّم لهجة شركتك خلال ١٠ دقائق.",
-  },
-  {
-    n: "٠٣",
-    title: "أَطلِقه ٢٤/٧",
-    body: "يعمل على واتساب، البريد، الموقع، أو نظامك الداخلي. أنت تراقب فقط.",
-  },
-];
+import { useTranslations } from "next-intl";
 
 export default function HowItWorks() {
+  const t = useTranslations("HowItWorks");
+
+  const steps = [
+    { n: t("step1Number"), title: t("step1Title"), body: t("step1Body") },
+    { n: t("step2Number"), title: t("step2Title"), body: t("step2Body") },
+    { n: t("step3Number"), title: t("step3Title"), body: t("step3Body") },
+  ];
+
   return (
     <section id="how" className="bg-wash py-24 lg:py-32 border-y border-line relative overflow-hidden">
       <div className="absolute inset-0 dotgrid opacity-40" />
       <div className="relative max-w-[1240px] mx-auto px-6 lg:px-10">
         <div className="max-w-3xl mb-16">
           <span className="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-white border border-line px-2.5 py-1 rounded-xs">
-            آلية العمل
+            {t("tag")}
           </span>
           <h2 className="display text-[40px] lg:text-[52px] mt-4">
-            ثلاث خطوات. <span className="grad-text">دقائق معدودة.</span>
+            {t("headlinePart1")} <span className="grad-text">{t("headlineHighlight")}</span>
           </h2>
         </div>
 

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Icon } from "./Icons";
 
 type Tier = {
@@ -10,64 +11,71 @@ type Tier = {
   highlighted?: boolean;
 };
 
-const tiers: Tier[] = [
-  {
-    name: "ابتدائي",
-    desc: "للشركات الناشئة وفِرق المؤسس الواحد.",
-    price: "٨٩",
-    unit: "ر.س / شهر",
-    features: ["وكيل واحد بخيارك", "١٬٠٠٠ محادثة شهرياً", "تكاملات أساسية", "دعم عبر البريد"],
-    ctaLabel: "ابدأ التجربة",
-  },
-  {
-    name: "مهني",
-    desc: "للفِرق الناضجة التي تحتاج فريقاً ذكياً كاملاً.",
-    price: "٢٢٩",
-    unit: "ر.س / شهر",
-    features: [
-      "٣ وكلاء يعملون معاً",
-      "٧٬٠٠٠ محادثة شهرياً",
-      "جميع التكاملات",
-      "تدريب على بياناتك",
-      "دعم أولوية ٢٤/٧",
-    ],
-    ctaLabel: "ابدأ التجربة",
-    highlighted: true,
-  },
-  {
-    name: "مؤسّسي",
-    desc: "للشركات الكبيرة بحجم استخدام مرتفع.",
-    price: "عرض مخصّص",
-    features: [
-      "وكلاء غير محدودين",
-      "محادثات غير محدودة",
-      "نشر على بيئتك الخاصة",
-      "مدير حساب مخصّص",
-      "اتفاقية مستوى خدمة",
-    ],
-    ctaLabel: "تواصل مع المبيعات",
-  },
-];
-
 export default function Pricing() {
+  const t = useTranslations("Pricing");
+
+  const tiers: Tier[] = [
+    {
+      name: t("starterName"),
+      desc: t("starterDesc"),
+      price: t("starterPrice"),
+      unit: t("starterUnit"),
+      features: [
+        t("starterFeature1"),
+        t("starterFeature2"),
+        t("starterFeature3"),
+        t("starterFeature4"),
+      ],
+      ctaLabel: t("starterCta"),
+    },
+    {
+      name: t("proName"),
+      desc: t("proDesc"),
+      price: t("proPrice"),
+      unit: t("proUnit"),
+      features: [
+        t("proFeature1"),
+        t("proFeature2"),
+        t("proFeature3"),
+        t("proFeature4"),
+        t("proFeature5"),
+      ],
+      ctaLabel: t("proCta"),
+      highlighted: true,
+    },
+    {
+      name: t("entName"),
+      desc: t("entDesc"),
+      price: t("entPrice"),
+      features: [
+        t("entFeature1"),
+        t("entFeature2"),
+        t("entFeature3"),
+        t("entFeature4"),
+        t("entFeature5"),
+      ],
+      ctaLabel: t("entCta"),
+    },
+  ];
+
   return (
     <section id="pricing" className="py-24 lg:py-32">
       <div className="max-w-[1240px] mx-auto px-6 lg:px-10">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-brand-100 px-2.5 py-1 rounded-xs">
-            الأسعار
+            {t("tag")}
           </span>
           <h2 className="display text-[40px] lg:text-[52px] mt-4">
-            ادفع لقاء <span className="grad-text">وكلاء</span>. لا لقاء مقاعد.
+            {t("headlinePart1")} <span className="grad-text">{t("headlineHighlight")}</span>{t("headlinePart2")}
           </h2>
           <p className="mt-5 text-[17px] leading-loose text-ink-2">
-            ٧ أيام تجربة مجانية. بدون بطاقة. ألغِ في أي وقت.
+            {t("subtitle")}
           </p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-5">
-          {tiers.map((t) => (
-            <PricingCard key={t.name} tier={t} />
+          {tiers.map((tier) => (
+            <PricingCard key={tier.name} tier={tier} popularBadge={t("popularBadge")} />
           ))}
         </div>
       </div>
@@ -75,12 +83,12 @@ export default function Pricing() {
   );
 }
 
-function PricingCard({ tier }: { tier: Tier }) {
+function PricingCard({ tier, popularBadge }: { tier: Tier; popularBadge: string }) {
   if (tier.highlighted) {
     return (
       <div className="bg-brand-600 text-white rounded-xl p-8 flex flex-col relative shadow-glow ring-1 ring-brand-700">
         <span className="absolute -top-3 end-6 bg-brand-100 text-brand-700 text-[11px] font-bold tracking-wider uppercase px-3 py-1 rounded-xs">
-          الأكثر طلباً
+          {popularBadge}
         </span>
         <h3 className="font-bold text-[20px]">{tier.name}</h3>
         <p className="text-[14px] text-white/75 mt-1">{tier.desc}</p>

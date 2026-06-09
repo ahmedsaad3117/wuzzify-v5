@@ -9,7 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-cairo)", "system-ui", "sans-serif"],
+        sans: [
+          "var(--font-inter, var(--font-cairo))",
+          "var(--font-cairo)",
+          "system-ui",
+          "sans-serif",
+        ],
       },
       colors: {
         brand: {

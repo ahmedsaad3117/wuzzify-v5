@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import Nav         from "@/components/Nav";
 import Hero        from "@/components/Hero";
 import AgentsGrid  from "@/components/AgentsGrid";
@@ -10,7 +11,14 @@ import CTABanner   from "@/components/CTABanner";
 import Footer      from "@/components/Footer";
 import IconSprite  from "@/components/Icons";
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <>
       <IconSprite />

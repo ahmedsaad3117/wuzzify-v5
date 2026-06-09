@@ -1,11 +1,15 @@
-const stats = [
-  { v: "٤٠+", k: "شركة تستخدم وُظيفاي" },
-  { v: "٢.٤الف", k: "محادثة في الشهر" },
-  { v: "٩٤٪",  k: "معدّل حل المشكلات" },
-  { v: "١٫٢ث", k: "متوسط زمن الرد" },
-];
+import { useTranslations } from "next-intl";
 
 export default function Stats() {
+  const t = useTranslations("Stats");
+
+  const stats = [
+    { v: t("stat1Value"), k: t("stat1Key") },
+    { v: t("stat2Value"), k: t("stat2Key") },
+    { v: t("stat3Value"), k: t("stat3Key") },
+    { v: t("stat4Value"), k: t("stat4Key") },
+  ];
+
   return (
     <section className="relative bg-ink text-white py-20 overflow-hidden">
       <div

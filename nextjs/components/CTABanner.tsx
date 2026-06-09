@@ -1,10 +1,12 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Icon } from "./Icons";
 
 export default function CTABanner() {
+  const t = useTranslations("CTABanner");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -14,7 +16,7 @@ export default function CTABanner() {
 
     if (!email.trim()) {
       setStatus("error");
-      setMessage("أدخل البريد الإلكتروني أولاً.");
+      setMessage(t("errorEmpty"));
       return;
     }
 
@@ -36,10 +38,10 @@ export default function CTABanner() {
 
       setEmail("");
       setStatus("success");
-      setMessage("تم إرسال بياناتك وسنتواصل معك قريباً.");
+      setMessage(t("success"));
     } catch {
       setStatus("error");
-      setMessage("تعذّر الإرسال حالياً. حاول مرة أخرى بعد قليل.");
+      setMessage(t("errorGeneric"));
     }
   }
 
@@ -55,10 +57,10 @@ export default function CTABanner() {
           />
           <div className="relative max-w-2xl">
             <h2 className="display text-[36px] lg:text-[52px] text-white">
-              فريقك الذكي. جاهز خلال ١٠ دقائق.
+              {t("title")}
             </h2>
             <p className="mt-5 text-[18px] leading-loose text-white/90 max-w-[52ch]">
-              لا حاجة لبطاقة ائتمان. لا التزامات. فقط جرّب وقرّر.
+              {t("body")}
             </p>
             <form onSubmit={handleSubmit} className="mt-8 flex flex-wrap gap-3 max-w-md">
               <input
@@ -66,7 +68,7 @@ export default function CTABanner() {
                 name="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="البريد الإلكتروني للعمل"
+                placeholder={t("emailPlaceholder")}
                 required
                 autoComplete="email"
                 className="flex-1 min-w-[220px] h-12 px-4 rounded-xs bg-white border border-white/0 text-ink placeholder:text-ink-3 focus:outline-none focus:border-brand-600 text-[14px]"
@@ -76,7 +78,7 @@ export default function CTABanner() {
                 disabled={status === "submitting"}
                 className="h-12 px-6 bg-ink hover:bg-brand-900 text-white text-[14px] font-semibold rounded-xs transition inline-flex items-center gap-2"
               >
-                {status === "submitting" ? "جارٍ الإرسال..." : "ابدأ التجربة المجانية"}
+                {status === "submitting" ? t("submitting") : t("submit")}
                 {status !== "submitting" && <Icon id="i-arrow" />}
               </button>
             </form>
@@ -86,7 +88,7 @@ export default function CTABanner() {
               </p>
             ) : null}
             <p className="mt-3 text-[12.5px] text-white/75">
-              ٧ أيام كاملة · إلغاء بنقرة واحدة
+              {t("footnote")}
             </p>
           </div>
         </div>

@@ -1,38 +1,25 @@
+import { useTranslations } from "next-intl";
 import { Icon } from "./Icons";
 
-const faqs = [
-  {
-    q: "هل وكلاء وُظيفاي يفهمون اللهجات العربية المختلفة؟",
-    a: "نعم. الوكلاء مُدرَّبون على العربية الفصحى ولهجات الخليج ومصر والشام. يمكنك أيضاً رفع أمثلة من محادثاتك السابقة لضبط اللهجة لتناسب جمهورك بدقة.",
-    open: true,
-  },
-  {
-    q: "كم من الوقت يستغرق تشغيل وكيلي؟",
-    a: "عشر دقائق في المتوسط. اختر القالب، صل مصادر البيانات، ودع التدريب التلقائي يقوم بالباقي.",
-  },
-  {
-    q: "أين تُخزَّن بياناتي؟",
-    a: "في مراكز بيانات داخل المملكة العربية السعودية وفقاً لمتطلبات الهيئة السعودية للبيانات والذكاء الاصطناعي (سدايا). تشفير كامل أثناء النقل والتخزين.",
-  },
-  {
-    q: "هل يمكنني ربط الوكيل بأنظمتي الحالية؟",
-    a: "نعم. تكاملات جاهزة مع Salesforce، HubSpot، Zoho، Zendesk، Intercom، واتساب بزنس، الجيميل، وأكثر من ٥٠ أداة أخرى. وواجهة API مفتوحة لأي ربط مخصّص.",
-  },
-  {
-    q: "ماذا لو لم يكن الوكيل مناسباً؟",
-    a: "ألغِ في أي وقت دون أسئلة. التجربة المجانية ٧ أيام لا تتطلّب بطاقة ائتمانية.",
-  },
-];
-
 export default function FAQ() {
+  const t = useTranslations("FAQ");
+
+  const faqs = [
+    { q: t("q1"), a: t("a1"), open: true },
+    { q: t("q2"), a: t("a2") },
+    { q: t("q3"), a: t("a3") },
+    { q: t("q4"), a: t("a4") },
+    { q: t("q5"), a: t("a5") },
+  ];
+
   return (
     <section id="faq" className="bg-wash border-y border-line py-24">
       <div className="max-w-[920px] mx-auto px-6 lg:px-10">
         <div className="mb-12">
           <span className="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-white border border-line px-2.5 py-1 rounded-xs">
-            الأسئلة الشائعة
+            {t("tag")}
           </span>
-          <h2 className="display text-[36px] lg:text-[44px] mt-4">كل ما تودّ معرفته. باختصار.</h2>
+          <h2 className="display text-[36px] lg:text-[44px] mt-4">{t("title")}</h2>
         </div>
 
         <div className="space-y-3">

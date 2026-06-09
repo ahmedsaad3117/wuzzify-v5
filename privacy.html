@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سياسة الخصوصية — وُظيفاي</title>
+<meta name="description" content="سياسة الخصوصية الخاصة بمنصة وُظيفاي، متوافقة مع نظام حماية البيانات الشخصية في المملكة العربية السعودية (PDPL — سدايا) وقانون حماية البيانات الشخصية المصري رقم ١٥١ لسنة ٢٠٢٠.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand-colors.css">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Cairo', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          brand: {
+            50:  '#F7F4FC',
+            100: '#EFEAF8',
+            200: '#D9CFEF',
+            300: '#B9A8E6',
+            400: '#8058E0',
+            500: '#6E55B4',
+            600: '#4C3491',
+            700: '#3B286F',
+            800: '#2E1F66',
+            900: '#1C133F',
+          },
+          ink:   { DEFAULT: '#14111F', 2: '#4A4659', 3: '#7A7588' },
+          line:  '#E4E1EE',
+          wash:  '#FAF8FD',
+        },
+        boxShadow: {
+          'card':  '0 1px 0 rgba(20,17,31,0.04), 0 2px 8px rgba(20,17,31,0.04)',
+          'lift':  '0 14px 40px -12px rgba(76,52,145,0.20), 0 2px 8px rgba(20,17,31,0.04)',
+        },
+        borderRadius: { 'xs': '3px' },
+      },
+    },
+  };
+</script>
+
+<style>
+  :root { --wz-grad: linear-gradient(135deg,#FFFFFF 0%,#EFEAF8 38%,#B9A8E6 72%,#4C3491 100%); }
+  html { scroll-behavior: smooth; }
+  body  { font-feature-settings: "ss01","cv11"; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .display { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .num     { font-feature-settings: "tnum"; }
+  .grad-text {
+    background: linear-gradient(135deg,#4C3491 0%,#8058E0 60%,#B9A8E6 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero-halo {
+    position: absolute; inset: -10% -10% 0 -10%;
+    background:
+      radial-gradient(900px 480px at 80% 10%, rgba(128,88,224,0.22), transparent 60%),
+      radial-gradient(700px 420px at 15% 30%, rgba(185,168,230,0.30), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  /* Policy body typography */
+  .policy h2 { font-weight: 800; font-size: 24px; line-height: 1.25; color: #14111F; margin-top: 48px; }
+  .policy h2 .num-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 3px;
+    background: #EFEAF8; color: #3B286F; font-size: 13px; font-weight: 800;
+    margin-inline-end: 12px; vertical-align: middle;
+  }
+  .policy h3 { font-weight: 700; font-size: 17px; color: #14111F; margin-top: 24px; margin-bottom: 8px; }
+  .policy p, .policy li { font-size: 15.5px; line-height: 2; color: #4A4659; }
+  .policy p { margin-top: 12px; }
+  .policy ul { margin-top: 12px; padding-inline-start: 22px; }
+  .policy ul li { list-style: disc; margin-top: 4px; }
+  .policy a { color: #4C3491; font-weight: 600; }
+  .policy a:hover { color: #3B286F; text-decoration: underline; }
+  .policy .lead { font-size: 17px; color: #4A4659; line-height: 2; }
+  .law-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #FFFFFF; border: 1px solid #E4E1EE; border-radius: 999px;
+    padding: 6px 14px; font-size: 12.5px; font-weight: 600; color: #3B286F;
+  }
+  .law-chip .dot { width: 6px; height: 6px; border-radius: 999px; background: #4C3491; }
+</style>
+</head>
+
+<body class="bg-white text-ink font-sans antialiased">
+
+<!-- ════════════════ Nav (slim, links to home) ════════════════ -->
+<header class="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-line">
+  <div class="max-w-[1240px] mx-auto px-6 lg:px-10 h-[72px] flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2.5">
+      <svg width="26" height="19" viewBox="0 0 80 56" class="text-brand-600" aria-hidden="true">
+        <polygon points="0,0 18,0 28,38 38,0 50,0 60,38 70,0 80,0 64,56 50,56 40,18 30,56 16,56" fill="currentColor"/>
+      </svg>
+      <span class="font-extrabold tracking-tight text-[20px] text-brand-700">وُظيفاي</span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-9 text-[14.5px] text-ink-2 font-medium">
+      <a href="index.html#agents"  class="hover:text-brand-600 transition">الوكلاء</a>
+      <a href="index.html#how"     class="hover:text-brand-600 transition">آلية العمل</a>
+      <a href="index.html#pricing" class="hover:text-brand-600 transition">الأسعار</a>
+      <a href="index.html#faq"     class="hover:text-brand-600 transition">الأسئلة</a>
+    </nav>
+
+    <a
+      href="index.html"
+      class="inline-flex h-10 items-center gap-2 px-5 bg-brand-600 hover:bg-brand-700 text-white text-[14px] font-semibold rounded-xs transition shadow-sm"
+    >
+      العودة إلى الرئيسية
+    </a>
+  </div>
+</header>
+
+<!-- ════════════════ Hero ════════════════ -->
+<section class="relative overflow-hidden border-b border-line">
+  <div class="hero-halo"></div>
+  <div class="relative max-w-[900px] mx-auto px-6 lg:px-10 pt-16 pb-14 lg:pt-20 lg:pb-16 text-center">
+    <span class="inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-brand-600 bg-brand-100 px-2.5 py-1 rounded-xs">
+      مستندات قانونية
+    </span>
+    <h1 class="display text-[40px] sm:text-[52px] lg:text-[60px] mt-5 text-ink">
+      سياسة <span class="grad-text">الخصوصية.</span>
+    </h1>
+    <p class="lead mt-6 max-w-[60ch] mx-auto">
+      نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية وفقاً لأنظمة المملكة العربية السعودية وجمهورية مصر العربية،
+      وعلى رأسها <b>نظام حماية البيانات الشخصية السعودي</b> الصادر عن الهيئة السعودية للبيانات والذكاء الاصطناعي (سدايا)،
+      و<b>قانون حماية البيانات الشخصية المصري رقم ١٥١ لسنة ٢٠٢٠</b>.
+    </p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+      <span class="law-chip"><span class="dot"></span> المملكة العربية السعودية · PDPL · سدايا</span>
+      <span class="law-chip"><span class="dot"></span> جمهورية مصر العربية · قانون ١٥١ / ٢٠٢٠ · PDPC</span>
+    </div>
+    <p class="num mt-6 text-[12.5px] text-ink-3">آخر تحديث: ٠٩ يونيو ٢٠٢٦</p>
+  </div>
+</section>
+
+<!-- ════════════════ Policy Body ════════════════ -->
+<main class="policy">
+  <div class="max-w-[820px] mx-auto px-6 lg:px-10 py-16 lg:py-20">
+
+    <!-- 1. Introduction -->
+    <h2><span class="num-chip num">١</span>مقدمة ونطاق التطبيق</h2>
+    <p>
+      تُوضّح هذه السياسة كيف تجمع منصة <b>وُظيفاي</b> (يُشار إليها بـ "نحن" أو "المنصة" أو "وُظيفاي") البيانات الشخصية،
+      وتستخدمها، وتشاركها، وتحميها، عند استخدامك لموقعنا الإلكتروني، أو وكلاء الذكاء الاصطناعي التابعين لنا،
+      أو أي خدمة من خدماتنا (يُشار إليها مجتمعةً بـ "الخدمات").
+    </p>
+    <p>
+      تنطبق هذه السياسة على جميع المستخدمين والعملاء داخل المملكة العربية السعودية وجمهورية مصر العربية،
+      وتعمل وُظيفاي بصفتها "<b>المتحكّم</b>" (Data Controller) في البيانات الشخصية وفق التعريف الوارد في:
+    </p>
+    <ul>
+      <li><b>نظام حماية البيانات الشخصية</b> السعودي الصادر بالمرسوم الملكي رقم (م/١٩) وتاريخ ٩/٢/١٤٤٣هـ، وتعديلاته بالمرسوم الملكي رقم (م/١٤٨)، ولوائحه التنفيذية ولائحة نقل البيانات الشخصية إلى خارج المملكة الصادرة عن الهيئة السعودية للبيانات والذكاء الاصطناعي (سدايا).</li>
+      <li><b>قانون حماية البيانات الشخصية</b> المصري رقم (١٥١) لسنة ٢٠٢٠ ولوائحه التنفيذية والقرارات الصادرة عن المركز المصري لحماية البيانات الشخصية (PDPC).</li>
+    </ul>
+
+    <!-- 2. Definitions -->
+    <h2><span class="num-chip num">٢</span>تعريفات</h2>
+    <ul>
+      <li><b>البيانات الشخصية:</b> أي بيانات تُعرّفك مباشرةً أو غير مباشرة، بما فيها الاسم، البريد الإلكتروني، رقم الهاتف، الرقم الوطني/القومي، عنوان الـ IP، أو أي معرّف رقمي.</li>
+      <li><b>البيانات الحساسة:</b> البيانات المتعلقة بالأصل العرقي، المعتقد الديني، الصحة، البيانات الوراثية والبيومترية، السجل الجنائي، والبيانات المالية الحساسة — وفق تعريفي النظام السعودي والقانون المصري.</li>
+      <li><b>المعالجة:</b> أي عملية تُجرى على البيانات الشخصية مثل الجمع، التسجيل، التخزين، التحليل، النقل، أو الإتلاف.</li>
+      <li><b>صاحب البيانات:</b> الشخص الطبيعي الذي تتعلق به البيانات الشخصية.</li>
+      <li><b>المتحكّم / المعالج:</b> الجهة التي تحدد أغراض ووسائل المعالجة (المتحكّم)، أو التي تعالج البيانات نيابةً عنها (المعالج).</li>
+    </ul>
+
+    <!-- 3. Data we collect -->
+    <h2><span class="num-chip num">٣</span>البيانات التي نجمعها</h2>
+
+    <h3>أ. بيانات تقدّمها أنت مباشرةً</h3>
+    <ul>
+      <li>الاسم، البريد الإلكتروني، رقم الجوال، اسم الجهة، المنصب.</li>
+      <li>بيانات تسجيل الحساب وبيانات الفوترة (عبر مقدّمي خدمات الدفع المرخّصين).</li>
+      <li>محتوى المحادثات والمستندات والملفات التي ترفعها لتدريب أو تشغيل وكلاء الذكاء الاصطناعي.</li>
+    </ul>
+
+    <h3>ب. بيانات نجمعها تلقائياً</h3>
+    <ul>
+      <li>عنوان IP، نوع الجهاز، نظام التشغيل، نوع المتصفح، اللغة، الموقع التقريبي.</li>
+      <li>سجلات الاستخدام، أوقات الجلسات، الصفحات التي تمت زيارتها، والإجراءات داخل المنصة.</li>
+      <li>ملفات تعريف الارتباط (Cookies) ومعرّفات الجلسة — راجع البند رقم ١٢.</li>
+    </ul>
+
+    <h3>ج. بيانات من مصادر طرف ثالث</h3>
+    <ul>
+      <li>بيانات من أنظمتك التي تربطها بمنصتنا (مثل Salesforce وHubSpot وWhatsApp Business وGmail)، بإذنك الصريح.</li>
+      <li>بيانات من مزوّدي خدمات المصادقة (Google, Microsoft) عند اختيارك تسجيل الدخول عبرها.</li>
+    </ul>
+
+    <!-- 4. Purposes & lawful basis -->
+    <h2><span class="num-chip num">٤</span>أغراض المعالجة وأساسها النظامي</h2>
+    <p>نعالج بياناتك للأغراض التالية وبناءً على الأسس النظامية التالية:</p>
+    <ul>
+      <li><b>تنفيذ العقد:</b> تقديم الخدمات، تشغيل الحساب، الفوترة، والدعم الفني.</li>
+      <li><b>الموافقة الصريحة:</b> التسويق المباشر، استخدام بياناتك لتدريب نماذج الذكاء الاصطناعي الخاصة بك، ومشاركة بياناتك مع أطراف اختيارية.</li>
+      <li><b>الالتزام النظامي:</b> الامتثال للقوانين الضريبية، ومكافحة غسل الأموال، والاستجابة لطلبات الجهات المختصة.</li>
+      <li><b>المصلحة المشروعة:</b> أمن المنصة، منع الاحتيال، وتحسين جودة الخدمات (دون المساس بحقوقك الأساسية).</li>
+    </ul>
+    <p>
+      وفقاً للنظام السعودي والقانون المصري، يحقّ لك سحب موافقتك في أي وقت دون أن يؤثر ذلك على مشروعية المعالجة السابقة للسحب.
+    </p>
+
+    <!-- 5. Sharing -->
+    <h2><span class="num-chip num">٥</span>مشاركة البيانات مع أطراف ثالثة</h2>
+    <p>لا نبيع بياناتك الشخصية. ونشاركها فقط في الحالات التالية ووفق ضمانات تعاقدية ملزمة:</p>
+    <ul>
+      <li><b>مقدّمو الخدمات (المعالجون):</b> مزوّدو الاستضافة السحابية، أدوات التحليلات، خدمات البريد، ومقدّمو خدمات الدفع — وكلهم ملزمون بالسرية وبضوابط حماية البيانات.</li>
+      <li><b>التكاملات بطلبك:</b> عند ربط حسابك بأنظمة خارجية (CRM، WhatsApp، البريد) فإنك توافق على تبادل البيانات اللازم لتشغيل التكامل.</li>
+      <li><b>الجهات الرسمية:</b> عند وجود طلب نظامي من جهة قضائية أو رقابية مختصة في المملكة العربية السعودية أو جمهورية مصر العربية.</li>
+      <li><b>عمليات الاستحواذ والاندماج:</b> مع إخطار صاحب البيانات وفق المتطلبات النظامية.</li>
+    </ul>
+
+    <!-- 6. Cross-border transfers -->
+    <h2><span class="num-chip num">٦</span>نقل البيانات خارج الدولة</h2>
+    <p>
+      قد تستلزم بعض الخدمات نقل بياناتك إلى خارج المملكة العربية السعودية أو جمهورية مصر العربية. عند الحاجة لذلك:
+    </p>
+    <ul>
+      <li>
+        داخل المملكة العربية السعودية: نلتزم بـ <b>لائحة نقل البيانات الشخصية إلى خارج المملكة</b> الصادرة عن سدايا،
+        ولا يتم النقل إلا إلى دول ذات مستوى حماية ملائم أو ضمن الضمانات المناسبة (شروط تعاقدية معتمدة، قواعد مؤسسية ملزمة، أو موافقة صريحة).
+      </li>
+      <li>
+        داخل جمهورية مصر العربية: نلتزم بالمواد ذات الصلة من قانون ١٥١ لسنة ٢٠٢٠ والحصول على ترخيص النقل
+        من <b>المركز المصري لحماية البيانات الشخصية</b> متى ما لزم.
+      </li>
+      <li>تُخزَّن بيانات العملاء السعوديين الحساسة داخل مراكز بيانات في المملكة العربية السعودية حيثما كان ذلك ممكناً فنّياً وتعاقدياً.</li>
+    </ul>
+
+    <!-- 7. Retention -->
+    <h2><span class="num-chip num">٧</span>مدة الاحتفاظ</h2>
+    <p>
+      نحتفظ ببياناتك الشخصية للمدة اللازمة فقط لتحقيق الأغراض الموضّحة في هذه السياسة، أو للمدة التي تفرضها الأنظمة المعمول بها.
+      كحدّ عام:
+    </p>
+    <ul>
+      <li>بيانات الحساب: طوال فترة سريان الاشتراك، ولمدة لا تتجاوز ٢٤ شهراً بعد إغلاق الحساب.</li>
+      <li>سجلات الفوترة والمعاملات: لمدة لا تقل عن ١٠ سنوات وفقاً لمتطلبات الزكاة والضريبة في المملكة وقانون الضرائب المصري.</li>
+      <li>محتوى المحادثات وملفات التدريب: تُحذف خلال ٩٠ يوماً من طلب الحذف، ما لم يفرض النظام خلاف ذلك.</li>
+      <li>سجلات الأمن وكشف الاحتيال: حتى ٣٦ شهراً.</li>
+    </ul>
+
+    <!-- 8. Security -->
+    <h2><span class="num-chip num">٨</span>أمن البيانات</h2>
+    <p>نطبّق إجراءات تنظيمية وتقنية ملائمة لحماية بياناتك، من بينها:</p>
+    <ul>
+      <li>تشفير البيانات أثناء النقل (TLS 1.2 فأعلى) وأثناء التخزين (AES-256).</li>
+      <li>التحكم في الصلاحيات بناءً على مبدأ الحد الأدنى من الامتيازات.</li>
+      <li>المصادقة الثنائية للموظفين الذين يصلون إلى البيانات الإنتاجية.</li>
+      <li>المراقبة المستمرة، اختبارات الاختراق الدورية، وخطط الاستجابة للحوادث.</li>
+      <li>إخطار الجهات المختصة (سدايا في المملكة، والمركز المصري لحماية البيانات في مصر) وأصحاب البيانات بأي خرق جوهري خلال المهل النظامية المقررة.</li>
+    </ul>
+
+    <!-- 9. Rights -->
+    <h2><span class="num-chip num">٩</span>حقوقك كصاحب بيانات</h2>
+    <p>يكفل لك كلا النظامين السعودي والمصري الحقوق التالية، ويمكنك ممارستها مجاناً:</p>
+    <ul>
+      <li><b>الحق في العِلم:</b> معرفة الأساس النظامي لجمع بياناتك وأغراض المعالجة.</li>
+      <li><b>الحق في الوصول:</b> الحصول على نسخة من بياناتك لدينا.</li>
+      <li><b>الحق في التصحيح والاستكمال:</b> تصحيح البيانات غير الدقيقة أو غير المكتملة.</li>
+      <li><b>الحق في الإتلاف (الحذف):</b> طلب حذف بياناتك متى انتفت الحاجة إليها أو سُحبت الموافقة.</li>
+      <li><b>الحق في سحب الموافقة:</b> في أي وقت ودون أثر رجعي على المعالجة السابقة.</li>
+      <li><b>الحق في نقل البيانات:</b> الحصول على بياناتك بصيغة مقروءة آلياً ونقلها إلى متحكّم آخر (وفق النظام السعودي).</li>
+      <li><b>الحق في الاعتراض:</b> الاعتراض على المعالجة لأغراض التسويق المباشر أو القرارات الآلية ذات الأثر الجوهري.</li>
+      <li><b>الحق في التظلّم:</b> تقديم شكوى إلى الجهة الرقابية المختصة (راجع البند ١٤).</li>
+    </ul>
+    <p>
+      لممارسة أيٍّ من هذه الحقوق، راسلنا على
+      <a href="mailto:privacy@wuzzify.ai">privacy@wuzzify.ai</a>.
+      نلتزم بالرد على طلبك خلال <b>٣٠ يوماً</b> كحدٍّ أقصى، وقد تُمدّد المدة لمدة مماثلة عند تعقيد الطلب مع إشعارك بالأسباب.
+    </p>
+
+    <!-- 10. Children -->
+    <h2><span class="num-chip num">١٠</span>بيانات الأطفال</h2>
+    <p>
+      لا تُوجّه خدماتنا للأطفال دون سن ١٨ عاماً، ولا نجمع بياناتهم عن قصد. إذا علمنا بجمع بيانات طفل دون موافقة وليّ أمره،
+      نبادر إلى حذفها فوراً وفق متطلبات النظام السعودي والقانون المصري.
+    </p>
+
+    <!-- 11. Automated decisions -->
+    <h2><span class="num-chip num">١١</span>القرارات الآلية والذكاء الاصطناعي</h2>
+    <p>
+      تعتمد منصة وُظيفاي على وكلاء ذكاء اصطناعي قد يتخذون قرارات آلية (مثل تصنيف المحادثات، أو اقتراح الردود، أو تحديد أولوية الطلبات).
+      عند وجود قرار آلي يُحدث أثراً قانونياً أو جوهرياً عليك، يحقّ لك:
+    </p>
+    <ul>
+      <li>طلب تدخّل بشري لمراجعة القرار.</li>
+      <li>التعبير عن وجهة نظرك والاعتراض على القرار.</li>
+      <li>الحصول على شرح مبسّط للمنطق العام للنظام الآلي.</li>
+    </ul>
+
+    <!-- 12. Cookies -->
+    <h2><span class="num-chip num">١٢</span>ملفات تعريف الارتباط (Cookies)</h2>
+    <p>نستخدم ملفات تعريف الارتباط للأغراض التالية:</p>
+    <ul>
+      <li><b>ضرورية:</b> لتشغيل الموقع وتأمين الجلسات (لا يمكن تعطيلها).</li>
+      <li><b>أداء وتحليل:</b> لقياس استخدام الموقع وتحسينه (تُفعَّل بعد موافقتك).</li>
+      <li><b>تسويق:</b> لعرض إعلانات ملائمة (تُفعَّل بعد موافقتك الصريحة).</li>
+    </ul>
+    <p>يمكنك إدارة تفضيلاتك من إعدادات المتصفح أو من خلال شريط الموافقة الذي يظهر عند زيارتك الأولى.</p>
+
+    <!-- 13. Updates -->
+    <h2><span class="num-chip num">١٣</span>تحديثات السياسة</h2>
+    <p>
+      قد نُحدّث هذه السياسة من حين لآخر بما يعكس تطوّر خدماتنا أو الالتزامات النظامية. ننشر النسخة المحدّثة على هذه الصفحة مع تاريخ التحديث،
+      ونُخطرك بأي تغييرات جوهرية عبر البريد الإلكتروني المسجّل لديك أو من خلال إشعار داخل المنصة.
+    </p>
+
+    <!-- 14. Complaints -->
+    <h2><span class="num-chip num">١٤</span>التواصل والشكاوى</h2>
+    <p>
+      مسؤول حماية البيانات (DPO) لدى وُظيفاي:
+      <br>
+      البريد الإلكتروني: <a href="mailto:dpo@wuzzify.ai">dpo@wuzzify.ai</a>
+      <br>
+      الاستفسارات العامة: <a href="mailto:privacy@wuzzify.ai">privacy@wuzzify.ai</a>
+    </p>
+    <p>
+      إن لم تتلقَّ رداً مرضياً، يحقّ لك تقديم شكوى إلى الجهة الرقابية المختصة:
+    </p>
+    <ul>
+      <li>
+        داخل المملكة العربية السعودية:
+        <b>الهيئة السعودية للبيانات والذكاء الاصطناعي (سدايا)</b> —
+        <a href="https://sdaia.gov.sa" target="_blank" rel="noopener">sdaia.gov.sa</a>
+      </li>
+      <li>
+        داخل جمهورية مصر العربية:
+        <b>المركز المصري لحماية البيانات الشخصية</b> التابع لوزارة الاتصالات وتكنولوجيا المعلومات.
+      </li>
+    </ul>
+
+    <!-- 15. Governing law -->
+    <h2><span class="num-chip num">١٥</span>القانون الواجب التطبيق</h2>
+    <p>
+      تخضع هذه السياسة وتُفسَّر وفقاً لأنظمة المملكة العربية السعودية لعملائنا في المملكة،
+      ولأحكام جمهورية مصر العربية لعملائنا في مصر، مع مراعاة أيّ أحكام آمرة في الدولة التي يقيم فيها صاحب البيانات.
+    </p>
+
+    <!-- Footer note -->
+    <div class="mt-16 p-6 border border-line rounded-xl bg-wash">
+      <p class="text-[14px] text-ink-3 m-0">
+        هذه السياسة وثيقة تنظيمية عامة ولا تُعدّ بديلاً عن الاستشارة القانونية المتخصّصة. لاستفسارات قانونية أو تعاقدية محدّدة،
+        يُرجى التواصل مع فريقنا القانوني عبر <a href="mailto:legal@wuzzify.ai">legal@wuzzify.ai</a>.
+      </p>
+    </div>
+
+  </div>
+</main>
+
+<!-- ════════════════ Footer ════════════════ -->
+<footer class="border-t border-line bg-white">
+  <div class="max-w-[1240px] mx-auto px-6 lg:px-10 py-10 flex flex-wrap items-center justify-between gap-4 text-[12.5px] text-ink-3">
+    <div class="flex items-center gap-2.5">
+      <svg width="22" height="16" viewBox="0 0 80 56" class="text-brand-600" aria-hidden="true">
+        <polygon points="0,0 18,0 28,38 38,0 50,0 60,38 70,0 80,0 64,56 50,56 40,18 30,56 16,56" fill="currentColor"/>
+      </svg>
+      <span class="font-extrabold tracking-tight text-[15px] text-brand-700">وُظيفاي</span>
+    </div>
+    <div class="num">© ٢٠٢٦ وُظيفاي. كل الحقوق محفوظة.</div>
+    <div class="flex items-center gap-5">
+      <a href="privacy.html" class="hover:text-brand-700 transition">الخصوصية</a>
+      <a href="index.html" class="hover:text-brand-700 transition">الرئيسية</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
