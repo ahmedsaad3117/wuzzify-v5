@@ -7,7 +7,7 @@ JWT-protected admin surface for the custom admin dashboard.
 ## Stack
 
 - NestJS 10
-- PostgreSQL (TypeORM)
+- MySQL 8 (TypeORM + mysql2)
 - JWT auth (`@nestjs/jwt`) + bcrypt password hashing
 - `class-validator` DTO validation, Helmet, CORS
 
@@ -94,7 +94,8 @@ curl http://localhost:4001/api/v1/health
 | `PORT` | no | Defaults to 4001 |
 | `NODE_ENV` | no | `development` / `production` |
 | `CORS_ORIGINS` | yes | Comma-separated allowed origins (the Next.js site) |
-| `DATABASE_URL` | yes | PostgreSQL connection string |
+| `DATABASE_URL` | yes | MySQL connection string (`mysql://user:pass@host:3306/db`) |
+| `DB_SSL` | no | `true` for managed MySQL that requires TLS |
 | `DB_SYNC` | no | `true` to auto-sync schema (dev only) |
 | `JWT_SECRET` | yes | Secret used to sign/verify JWTs |
 | `JWT_EXPIRES_IN` | no | JWT lifetime (default `7d`) |

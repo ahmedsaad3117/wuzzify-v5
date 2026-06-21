@@ -4,7 +4,7 @@ Deploys both services natively on one host:
 
 - **Frontend** (Next.js) → PM2 app on `127.0.0.1:3000`, served by Nginx at `https://DOMAIN`
 - **Backend** (NestJS) → PM2 app on `127.0.0.1:4001`, served by Nginx at `https://API_DOMAIN`
-- **PostgreSQL** on the same host
+- **MySQL** on the same host
 
 The backend gets its own subdomain so the frontend's own `/api/contact` route
 doesn't collide with the NestJS API.
@@ -35,7 +35,7 @@ git clone <your-repo> wuzzify-v5 && cd wuzzify-v5
 cp deploy/deploy.env.example deploy/deploy.env
 nano deploy/deploy.env        # set domains, email, DB password, JWT secret, admin creds
 
-# 2) Provision the server (installs Node, PostgreSQL, PM2, Nginx, Certbot; creates DB)
+# 2) Provision the server (installs Node, MySQL, PM2, Nginx, Certbot; creates DB)
 sudo bash deploy/setup-server.sh
 
 # 3) Build + deploy everything (run as your APP_USER, NOT root)

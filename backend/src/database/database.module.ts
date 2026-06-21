@@ -10,14 +10,16 @@ import { Admin } from './entities/admin.entity';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
-        const isProd = config.get('NODE_ENV') === 'production';
+        const useSsl = config.get('DB_SSL') === 'true';
         return {
-          type: 'postgres',
+          type: 'mysql',
           url: config.getOrThrow<string>('DATABASE_URL'),
           entities: [Article, Admin],
+          charset: 'utf8mb4',
+          timezone: 'Z',
           // Auto schema sync is opt-in via DB_SYNC (handy for local dev).
           synchronize: config.get('DB_SYNC') === 'true',
-          ssl: isProd ? { rejectUnauthorized: false } : false,
+          ssl: useSsl ? { rejectUnauthorized: false } : undefined,
         };
       },
     }),

@@ -4,8 +4,8 @@
 #
 #   sudo bash deploy/setup-server.sh
 #
-# Installs Node.js, PostgreSQL, PM2, Nginx, Certbot and the firewall, then
-# creates the database role + database. Idempotent: safe to re-run.
+# Installs Node.js, MySQL, PM2, Nginx, Certbot and the firewall, then
+# creates the database + user. Idempotent: safe to re-run.
 # ============================================================================
 set -euo pipefail
 
@@ -54,30 +54,21 @@ log "Installing Nginx and Certbot"
 apt-get install -y nginx certbot python3-certbot-nginx
 systemctl enable --now nginx
 
-# --- PostgreSQL -------------------------------------------------------------
-log "Installing PostgreSQL"
-apt-get install -y postgresql postgresql-contrib
-systemctl enable --now postgresql
+# --- MySQL ------------------------------------------------------------------
+log "Installing MySQL server"
+apt-get install -y mysql-server
+systemctl enable --now mysql
 
-log "Creating database role and database (idempotent)"
-sudo -u postgres psql -v ON_ERROR_STOP=1 <<SQL
-DO \$\$
-BEGIN
-  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '${DB_USER}') THEN
-    CREATE ROLE ${DB_USER} LOGIN PASSWORD '${DB_PASSWORD}';
-  ELSE
-    ALTER ROLE ${DB_USER} WITH PASSWORD '${DB_PASSWORD}';
-  END IF;
-END
-\$\$;
+log "Creating database and user (idempotent)"
+# Fresh MySQL on Ubuntu uses auth_socket for root, so `mysql` works for root here.
+mysql <<SQL
+CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
+ALTER USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
+GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'localhost';
+FLUSH PRIVILEGES;
 SQL
-
-if ! sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}'" | grep -q 1; then
-  sudo -u postgres createdb -O "${DB_USER}" "${DB_NAME}"
-fi
-# pgcrypto provides gen_random_uuid(); create it as superuser up front.
-sudo -u postgres psql -d "${DB_NAME}" -c 'CREATE EXTENSION IF NOT EXISTS pgcrypto;'
-sudo -u postgres psql -d "${DB_NAME}" -c "GRANT ALL ON SCHEMA public TO ${DB_USER};"
 
 # --- Firewall ---------------------------------------------------------------
 log "Configuring UFW firewall (OpenSSH + Nginx)"

@@ -1,11 +1,11 @@
 # Wuzzify v5 — Articles CMS
 
-A standalone CMS for the **مقالات (Articles)** section: a NestJS + PostgreSQL
+A standalone CMS for the **مقالات (Articles)** section: a NestJS + MySQL
 backend and a custom admin dashboard inside the Next.js app.
 
 ```
 wuzzify-v5/
-├── backend/            ← NestJS + PostgreSQL + JWT API (port 4001)
+├── backend/            ← NestJS + MySQL + JWT API (port 4001)
 └── nextjs/
     ├── app/[locale]/articles/        ← public مقالات pages (list + detail)
     └── app/admin/                    ← custom admin dashboard (login + CRUD)
@@ -13,10 +13,13 @@ wuzzify-v5/
 
 ## 1. Database
 
-Create a PostgreSQL database, e.g.:
+Create a MySQL database and user, e.g.:
 
 ```sql
-CREATE DATABASE wuzzify_v5;
+CREATE DATABASE wuzzify_v5 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'wuzzify'@'localhost' IDENTIFIED BY 'wuzzify';
+GRANT ALL PRIVILEGES ON wuzzify_v5.* TO 'wuzzify'@'localhost';
+FLUSH PRIVILEGES;
 ```
 
 ## 2. Backend (`backend/`)
@@ -59,7 +62,7 @@ Encrypt), see [deploy/DEPLOY.md](deploy/DEPLOY.md). In short:
 
 ```bash
 cp deploy/deploy.env.example deploy/deploy.env   # set domains, DB, secrets
-sudo bash deploy/setup-server.sh                 # install Node/Postgres/PM2/Nginx/Certbot + DB
+sudo bash deploy/setup-server.sh                 # install Node/MySQL/PM2/Nginx/Certbot + DB
 bash deploy/deploy.sh                            # build + migrate + PM2 + Nginx + TLS
 ```
 

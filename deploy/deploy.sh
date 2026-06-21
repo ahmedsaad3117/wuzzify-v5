@@ -41,13 +41,14 @@ install_deps() {
 
 # ── Backend: env, deps, build, migrate ─────────────────────────────────────
 deploy_backend() {
-  need node; need psql
+  need node; need mysql
   log "Writing backend .env"
   cat > "$BACKEND_DIR/.env" <<EOF
 PORT=${BACKEND_PORT}
 NODE_ENV=production
 CORS_ORIGINS=https://${DOMAIN}$([ "${INCLUDE_WWW:-false}" = "true" ] && echo ",https://www.${DOMAIN}")
-DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+DB_SSL=${DB_SSL:-false}
 DB_SYNC=false
 JWT_SECRET=${JWT_SECRET}
 JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
@@ -63,8 +64,8 @@ EOF
   ( cd "$BACKEND_DIR" && npm run build )
 
   log "Applying database migrations"
-  PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" \
-    -v ON_ERROR_STOP=1 -f "$BACKEND_DIR/migrations/0001_init.sql"
+  MYSQL_PWD="$DB_PASSWORD" mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" "$DB_NAME" \
+    < "$BACKEND_DIR/migrations/0001_init.sql"
 }
 
 # ── Frontend: env, deps, build ─────────────────────────────────────────────
