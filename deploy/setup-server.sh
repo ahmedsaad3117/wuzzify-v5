@@ -54,10 +54,6 @@ log "Installing Nginx and Certbot"
 apt-get install -y nginx certbot python3-certbot-nginx
 systemctl enable --now nginx
 
-# --- MySQL ------------------------------------------------------------------
-log "Installing MySQL server"
-apt-get install -y mysql-server
-systemctl enable --now mysql
 
 log "Creating database and user (idempotent)"
 # Fresh MySQL on Ubuntu uses auth_socket for root, so `mysql` works for root here.
