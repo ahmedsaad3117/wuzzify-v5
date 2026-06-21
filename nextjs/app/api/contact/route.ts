@@ -3,11 +3,17 @@ import { NextRequest, NextResponse } from "next/server";
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN ?? process.env.BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID ?? process.env.CHAT_ID;
 
-function buildTelegramMessage(name: string, email: string, message: string) {
+function buildTelegramMessage(
+  name: string,
+  email: string,
+  phone: string,
+  message: string
+) {
   return [
     "📩 New Contact Form",
     `👤 Name: ${name || "-"}`,
     `📧 Email: ${email}`,
+    `📱 Phone: ${phone}`,
     `💬 Message: ${message || "-"}`,
   ].join("\n");
 }
@@ -22,12 +28,20 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json();
   const email = typeof body.email === "string" ? body.email.trim() : "";
+  const phone = typeof body.phone === "string" ? body.phone.trim() : "";
   const name = typeof body.name === "string" ? body.name.trim() : "";
   const message = typeof body.message === "string" ? body.message.trim() : "";
 
   if (!email) {
     return NextResponse.json(
       { error: "Email is required." },
+      { status: 400 }
+    );
+  }
+
+  if (!phone) {
+    return NextResponse.json(
+      { error: "Phone is required." },
       { status: 400 }
     );
   }
@@ -41,7 +55,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         chat_id: CHAT_ID,
-        text: buildTelegramMessage(name, email, message),
+        text: buildTelegramMessage(name, email, phone, message),
       }),
     }
   );

@@ -1,9 +1,11 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Icon } from "./Icons";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Nav() {
   const t = useTranslations("Nav");
+  const locale = useLocale();
+  const base = locale === "ar" ? "" : `/${locale}`;
 
   const links = [
     { href: "#agents",  label: t("agents") },
@@ -11,6 +13,7 @@ export default function Nav() {
     { href: "#compare", label: t("compare") },
     { href: "#pricing", label: t("pricing") },
     { href: "#faq",     label: t("faq") },
+    { href: `${base}/articles`, label: t("articles") },
   ];
 
   return (

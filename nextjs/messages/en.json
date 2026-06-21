@@ -17,8 +17,19 @@
     "compare": "Comparison",
     "pricing": "Pricing",
     "faq": "FAQ",
+    "articles": "Articles",
     "signIn": "Sign in",
     "startFree": "Start free"
+  },
+  "Articles": {
+    "tag": "Blog",
+    "title": "Articles",
+    "subtitle": "Insights and articles on AI and business automation for the Arabic market.",
+    "empty": "No published articles yet. Check back soon.",
+    "readMore": "Read more",
+    "backToList": "All articles",
+    "publishedOn": "Published on",
+    "notFound": "Article not found."
   },
   "Hero": {
     "badge": "AI Employees · Ready today",
@@ -194,10 +205,12 @@
     "title": "Your smart team. Ready in 10 minutes.",
     "body": "No credit card. No commitments. Just try it and decide.",
     "emailPlaceholder": "Work email",
+    "phonePlaceholder": "Phone number",
     "submit": "Start free trial",
     "submitting": "Sending...",
     "footnote": "7 full days · Cancel with one click",
     "errorEmpty": "Enter your email first.",
+    "errorPhone": "Enter your phone number too.",
     "success": "Your details have been sent. We'll be in touch shortly.",
     "errorGeneric": "Couldn't send right now. Please try again in a moment."
   },

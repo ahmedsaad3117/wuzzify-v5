@@ -1,32 +1,40 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Icon } from "./Icons";
 
 export default function Footer() {
   const t = useTranslations("Footer");
+  const tNav = useTranslations("Nav");
+  const locale = useLocale();
+  const base = locale === "ar" ? "" : `/${locale}`;
+  const privacyHref = `${base}/privacy`;
 
   const cols = [
     {
       title: t("productTitle"),
       links: [
-        t("productLink1"),
-        t("productLink2"),
-        t("productLink3"),
-        t("productLink4"),
-        t("productLink5"),
+        { label: t("productLink1"), href: "#" },
+        { label: t("productLink2"), href: "#" },
+        { label: t("productLink3"), href: "#" },
+        { label: t("productLink4"), href: "#" },
+        { label: t("productLink5"), href: "#" },
       ],
     },
     {
       title: t("companyTitle"),
       links: [
-        t("companyLink1"),
-        t("companyLink2"),
-        t("companyLink3"),
-        t("companyLink4"),
+        { label: t("companyLink1"), href: "#" },
+        { label: tNav("articles"), href: `${base}/articles` },
+        { label: t("companyLink3"), href: "#" },
+        { label: t("companyLink4"), href: "#" },
       ],
     },
     {
       title: t("legalTitle"),
-      links: [t("legalLink1"), t("legalLink2"), t("legalLink3")],
+      links: [
+        { label: t("legalLink1"), href: privacyHref },
+        { label: t("legalLink2"), href: "#" },
+        { label: t("legalLink3"), href: "#" },
+      ],
     },
   ];
 
@@ -52,9 +60,9 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-[14px] text-ink-2">
               {c.links.map((l) => (
-                <li key={l}>
-                  <a href="#" className="hover:text-brand-700 transition">
-                    {l}
+                <li key={l.label}>
+                  <a href={l.href} className="hover:text-brand-700 transition">
+                    {l.label}
                   </a>
                 </li>
               ))}

@@ -8,6 +8,7 @@ import { Icon } from "./Icons";
 export default function CTABanner() {
   const t = useTranslations("CTABanner");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -20,6 +21,12 @@ export default function CTABanner() {
       return;
     }
 
+    if (!phone.trim()) {
+      setStatus("error");
+      setMessage(t("errorPhone"));
+      return;
+    }
+
     try {
       setStatus("submitting");
       setMessage("");
@@ -29,7 +36,7 @@ export default function CTABanner() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, phone }),
       });
 
       if (!response.ok) {
@@ -37,6 +44,7 @@ export default function CTABanner() {
       }
 
       setEmail("");
+      setPhone("");
       setStatus("success");
       setMessage(t("success"));
     } catch {
@@ -72,6 +80,17 @@ export default function CTABanner() {
                 required
                 autoComplete="email"
                 className="flex-1 min-w-[220px] h-12 px-4 rounded-xs bg-white border border-white/0 text-ink placeholder:text-ink-3 focus:outline-none focus:border-brand-600 text-[14px]"
+              />
+              <input
+                type="tel"
+                name="phone"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                placeholder={t("phonePlaceholder")}
+                required
+                autoComplete="tel"
+                dir="ltr"
+                className="flex-1 min-w-[220px] h-12 px-4 rounded-xs bg-white border border-white/0 text-ink placeholder:text-ink-3 focus:outline-none focus:border-brand-600 text-[14px] text-end"
               />
               <button
                 type="submit"

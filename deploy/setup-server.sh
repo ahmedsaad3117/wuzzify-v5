@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# ============================================================================
+# Wuzzify v5 — server provisioning (run ONCE, as root)
+#
+#   sudo bash deploy/setup-server.sh
+#
+# Installs Node.js, PostgreSQL, PM2, Nginx, Certbot and the firewall, then
+# creates the database role + database. Idempotent: safe to re-run.
+# ============================================================================
+set -euo pipefail
+
+# --- Load config ------------------------------------------------------------
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ENV_FILE="${SCRIPT_DIR}/deploy.env"
+if [ ! -f "$ENV_FILE" ]; then
+  echo "ERROR: ${ENV_FILE} not found. Run: cp deploy.env.example deploy.env && edit it." >&2
+  exit 1
+fi
+set -a; . "$ENV_FILE"; set +a
+
+if [ "$(id -u)" -ne 0 ]; then
+  echo "ERROR: run this script as root (sudo)." >&2
+  exit 1
+fi
+
+log() { echo -e "\n\033[1;35m==> $*\033[0m"; }
+
+export DEBIAN_FRONTEND=noninteractive
+
+# --- Base packages ----------------------------------------------------------
+log "Updating apt and installing base packages"
+apt-get update -y
+apt-get install -y ca-certificates curl gnupg git build-essential ufw
+
+# --- Node.js (NodeSource) ---------------------------------------------------
+if ! command -v node >/dev/null 2>&1 || [ "$(node -v | sed 's/v\([0-9]*\).*/\1/')" -lt "${NODE_MAJOR}" ]; then
+  log "Installing Node.js ${NODE_MAJOR}.x"
+  curl -fsSL "https://deb.nodesource.com/setup_${NODE_MAJOR}.x" | bash -
+  apt-get install -y nodejs
+else
+  log "Node.js already present: $(node -v)"
+fi
+
+# --- PM2 --------------------------------------------------------------------
+if ! command -v pm2 >/dev/null 2>&1; then
+  log "Installing PM2 globally"
+  npm install -g pm2
+else
+  log "PM2 already present: $(pm2 -v)"
+fi
+
+# --- Nginx + Certbot --------------------------------------------------------
+log "Installing Nginx and Certbot"
+apt-get install -y nginx certbot python3-certbot-nginx
+systemctl enable --now nginx
+
+# --- PostgreSQL -------------------------------------------------------------
+log "Installing PostgreSQL"
+apt-get install -y postgresql postgresql-contrib
+systemctl enable --now postgresql
+
+log "Creating database role and database (idempotent)"
+sudo -u postgres psql -v ON_ERROR_STOP=1 <<SQL
+DO \$\$
+BEGIN
+  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '${DB_USER}') THEN
+    CREATE ROLE ${DB_USER} LOGIN PASSWORD '${DB_PASSWORD}';
+  ELSE
+    ALTER ROLE ${DB_USER} WITH PASSWORD '${DB_PASSWORD}';
+  END IF;
+END
+\$\$;
+SQL
+
+if ! sudo -u postgres psql -tAc "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}'" | grep -q 1; then
+  sudo -u postgres createdb -O "${DB_USER}" "${DB_NAME}"
+fi
+# pgcrypto provides gen_random_uuid(); create it as superuser up front.
+sudo -u postgres psql -d "${DB_NAME}" -c 'CREATE EXTENSION IF NOT EXISTS pgcrypto;'
+sudo -u postgres psql -d "${DB_NAME}" -c "GRANT ALL ON SCHEMA public TO ${DB_USER};"
+
+# --- Firewall ---------------------------------------------------------------
+log "Configuring UFW firewall (OpenSSH + Nginx)"
+ufw allow OpenSSH || true
+ufw allow 'Nginx Full' || true
+yes | ufw enable || true
+
+# --- PM2 startup for the app user -------------------------------------------
+APP_HOME="$(getent passwd "${APP_USER}" | cut -d: -f6)"
+if [ -n "${APP_HOME}" ]; then
+  log "Enabling PM2 startup on boot for user ${APP_USER}"
+  env PATH="$PATH:/usr/bin" pm2 startup systemd -u "${APP_USER}" --hp "${APP_HOME}" || true
+else
+  echo "WARNING: user '${APP_USER}' not found — create it and re-run, or set APP_USER in deploy.env." >&2
+fi
+
+log "Provisioning complete."
+echo "Next: switch to the '${APP_USER}' user and run:  bash deploy/deploy.sh"

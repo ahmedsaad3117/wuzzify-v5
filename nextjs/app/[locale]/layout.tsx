@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo, Inter } from "next/font/google";
-import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
@@ -53,7 +53,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) {
+  if (!(routing.locales as readonly string[]).includes(locale)) {
     notFound();
   }
   setRequestLocale(locale);
