@@ -24,11 +24,7 @@ export default function Comparison() {
     { label: t("row2Label"), trad: t("row2Trad"), wz: t("row2Wz") },
     { label: t("row3Label"), trad: t("row3Trad"), wz: t("row3Wz") },
     { label: t("row4Label"), trad: t("row4Trad"), wz: t("row4Wz") },
-    {
-      label: t("row5Label"),
-      trad: { icon: "i-x",     text: t("row5TradText"), color: "text-red-500" },
-      wz:   { icon: "i-check", text: t("row5WzText"),   color: "text-brand-600" },
-    },
+    { label: t("row5Label"), trad: t("row5TradText"), wz: t("row5WzText") },
     { label: t("row6Label"), trad: t("row6Trad"), wz: t("row6Wz") },
   ];
 

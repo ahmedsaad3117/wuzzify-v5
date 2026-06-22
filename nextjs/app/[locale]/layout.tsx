@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import ChatWidget from "@/components/ChatWidget";
 import "../globals.css";
 
 const cairo = Cairo({
@@ -67,6 +68,7 @@ export default async function LocaleLayout({
       <body className="bg-white text-ink font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
           {children}
+          <ChatWidget />
         </NextIntlClientProvider>
       </body>
     </html>

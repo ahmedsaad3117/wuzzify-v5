@@ -44,6 +44,47 @@ http://localhost:4001/api/v1
 | PATCH | `/articles/admin/:id` | Update |
 | DELETE | `/articles/admin/:id` | Delete |
 
+**Chat** (n8n-backed live chat)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/chat/send` | Browser → `{ sessionId?, message }` → `{ sessionId }`. Forwards to n8n. |
+| POST | `/chat/callback` | n8n → delivers the agent reply for a session (auth via token). |
+| GET | `/chat/poll?sessionId=&after=` | Browser → agent replies newer than `after` → `{ messages, cursor }`. |
+
+### Chat ↔ n8n contract
+
+1. **Browser → backend:** `POST /chat/send`. The backend creates/refreshes a
+   session (keyed by a `sessionId` the browser stores in a cookie) and records
+   the visitor's IP.
+2. **Backend → your n8n webhook** (`N8N_WEBHOOK_URL`), POST JSON:
+   ```jsonc
+   {
+     "sessionId": "uuid",
+     "ip": "203.0.113.7",
+     "message": "the user's text",
+     "timestamp": "2026-06-21T…Z",
+     "callbackUrl": "https://api.example.com/api/v1/chat/callback",
+     "callbackToken": "your N8N_CALLBACK_TOKEN"
+   }
+   ```
+3. **n8n agent → backend callback:** when the agent has a reply, n8n calls
+   `callbackUrl` with the token (header `x-callback-token` **or** body `token`):
+   ```jsonc
+   // POST {callbackUrl}   header: x-callback-token: <N8N_CALLBACK_TOKEN>
+   { "sessionId": "uuid", "reply": "the agent's answer" }
+   ```
+   The `reply` field may instead be named `message`, `text`, or `output`.
+4. **Browser polls** `GET /chat/poll` every couple of seconds and shows new
+   agent replies for its session.
+
+> If your n8n workflow ends with a **"Respond to Webhook"** node that returns
+> `{ "reply": "…" }` synchronously, the backend will also show that immediately —
+> so both async-callback and synchronous styles work.
+
+Sessions are held in memory (single PM2 instance) and expire after
+`CHAT_SESSION_TTL_MIN` minutes of inactivity.
+
 ### Article shape
 
 ```jsonc
