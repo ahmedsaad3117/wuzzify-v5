@@ -26,7 +26,14 @@ module.exports = {
       args: `start -p ${FRONTEND_PORT}`,
       instances: 1,
       exec_mode: "fork",
-      env: { NODE_ENV: "production" },
+      env: {
+        NODE_ENV: "production",
+        // Inject server-side runtime vars straight into the process so the
+        // /api/contact route works regardless of cwd / .env file resolution.
+        // (deploy.sh sources deploy.env with `set -a`, so these are present.)
+        TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || "",
+        TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID || "",
+      },
       max_memory_restart: "600M",
       time: true,
     },
