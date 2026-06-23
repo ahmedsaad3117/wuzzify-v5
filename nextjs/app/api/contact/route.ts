@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN ?? process.env.BOT_TOKEN;
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID ?? process.env.CHAT_ID;
+// Read at request time so the running server's env is always used
+// (these are server-only runtime vars, never inlined at build).
+export const dynamic = "force-dynamic";
 
 function buildTelegramMessage(
   name: string,
@@ -19,6 +20,9 @@ function buildTelegramMessage(
 }
 
 export async function POST(request: NextRequest) {
+  const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN ?? process.env.BOT_TOKEN;
+  const CHAT_ID = process.env.TELEGRAM_CHAT_ID ?? process.env.CHAT_ID;
+
   if (!BOT_TOKEN || !CHAT_ID) {
     return NextResponse.json(
       { error: "Telegram is not configured." },
