@@ -15,6 +15,7 @@ import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { JwtAdminGuard } from '../auth/jwt-admin.guard';
+import { ApiKeyGuard } from './api-key.guard';
 
 @Controller('articles')
 export class ArticlesController {
@@ -32,6 +33,13 @@ export class ArticlesController {
   @Get('by-slug/:slug')
   bySlug(@Param('slug') slug: string) {
     return this.articles.getPublishedBySlug(slug);
+  }
+
+  // ── External ingest (API key) — for n8n / automation ──
+  @UseGuards(ApiKeyGuard)
+  @Post('ingest')
+  ingest(@Body() dto: CreateArticleDto) {
+    return this.articles.ingest(dto);
   }
 
   // ── Admin ────────────────────────────────────────────

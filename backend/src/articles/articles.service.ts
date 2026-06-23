@@ -65,6 +65,22 @@ export class ArticlesService {
     return article;
   }
 
+  /**
+   * External ingest (n8n / automation). Upserts by slug: if the provided slug
+   * already exists, the article is updated; otherwise a new one is created.
+   * Without a slug it always creates (deriving + de-duplicating from title_ar).
+   */
+  async ingest(dto: CreateArticleDto) {
+    if (dto.slug) {
+      const slug = slugify(dto.slug);
+      if (slug) {
+        const existing = await this.articles.findOne({ where: { slug } });
+        if (existing) return this.update(existing.id, dto);
+      }
+    }
+    return this.create(dto);
+  }
+
   async create(dto: CreateArticleDto) {
     const slug = await this.resolveSlug(dto.slug || dto.title_ar);
     const status = dto.status ?? 'draft';

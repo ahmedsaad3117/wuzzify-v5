@@ -44,6 +44,38 @@ http://localhost:4001/api/v1
 | PATCH | `/articles/admin/:id` | Update |
 | DELETE | `/articles/admin/:id` | Delete |
 
+**External ingest** (API key — for n8n / automation)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/articles/ingest` | Create (or upsert by `slug`) an article. Header `x-api-key: <ARTICLES_API_KEY>`. |
+
+Body is the same shape as admin create (`title_ar` required; everything else
+optional). If `slug` is supplied and already exists, the matching article is
+**updated** instead of duplicated — so an n8n workflow can re-run safely. Set
+`status: "published"` to publish immediately, or omit it to create a draft.
+
+```bash
+curl -X POST https://api.example.com/api/v1/articles/ingest \
+  -H "x-api-key: $ARTICLES_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "slug": "ai-in-arabic-support",
+    "title_ar": "الذكاء الاصطناعي في دعم العملاء",
+    "title_en": "AI in Customer Support",
+    "excerpt_ar": "مقدمة قصيرة…",
+    "content_ar": "<p>المحتوى بصيغة HTML…</p>",
+    "content_en": "<p>HTML content…</p>",
+    "cover_url": "https://…/cover.jpg",
+    "status": "published"
+  }'
+```
+
+In n8n, use an **HTTP Request** node: method `POST`, URL
+`{API}/articles/ingest`, header `x-api-key`, JSON body built from the
+agent's output. `content_ar` / `content_en` accept HTML (the public article
+page renders it).
+
 **Chat** (n8n-backed live chat)
 
 | Method | Path | Description |
