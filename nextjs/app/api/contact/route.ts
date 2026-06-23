@@ -20,8 +20,8 @@ function buildTelegramMessage(
 }
 
 export async function POST(request: NextRequest) {
-  const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN ?? process.env.BOT_TOKEN;
-  const CHAT_ID = process.env.TELEGRAM_CHAT_ID ?? process.env.CHAT_ID;
+  const BOT_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN ?? process.env.BOT_TOKEN;
+  const CHAT_ID = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID ?? process.env.CHAT_ID;
 
   if (!BOT_TOKEN || !CHAT_ID) {
     return NextResponse.json(
