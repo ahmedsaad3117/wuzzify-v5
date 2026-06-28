@@ -96,6 +96,8 @@ page renders it).
      "ip": "203.0.113.7",
      "message": "the user's text",
      "timestamp": "2026-06-21T…Z",
+     "cookies": "a=1; b=2",                 // raw browser cookie string
+     "cookiesParsed": { "a": "1", "b": "2" }, // same, as an object
      "callbackUrl": "https://api.example.com/api/v1/chat/callback",
      "callbackToken": "your N8N_CALLBACK_TOKEN"
    }

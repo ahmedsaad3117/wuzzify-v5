@@ -27,7 +27,9 @@ export class ChatController {
   // Browser → send a message (forwarded to n8n).
   @Post('send')
   send(@Body() dto: SendMessageDto, @Req() req: Request) {
-    return this.chat.send(dto.sessionId, clientIp(req), dto.message);
+    // Prefer the cookies the browser reported; fall back to the request header.
+    const cookies = dto.cookies ?? req.headers.cookie ?? '';
+    return this.chat.send(dto.sessionId, clientIp(req), dto.message, cookies);
   }
 
   // n8n → deliver the agent's reply. Body shape is intentionally loose so it

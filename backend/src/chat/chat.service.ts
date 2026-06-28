@@ -10,6 +10,20 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { ChatStore } from './chat.store';
 
+/** Turn a raw "a=1; b=2" cookie string into an object for convenience in n8n. */
+function parseCookies(raw: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!raw) return out;
+  for (const part of raw.split(';')) {
+    const eq = part.indexOf('=');
+    if (eq < 0) continue;
+    const key = part.slice(0, eq).trim();
+    if (!key) continue;
+    out[key] = decodeURIComponent(part.slice(eq + 1).trim());
+  }
+  return out;
+}
+
 @Injectable()
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
@@ -20,7 +34,12 @@ export class ChatService {
   ) {}
 
   /** Store the user message and forward it to the configured n8n webhook. */
-  async send(sessionId: string | undefined, ip: string, message: string) {
+  async send(
+    sessionId: string | undefined,
+    ip: string,
+    message: string,
+    cookies?: string,
+  ) {
     const session = this.store.ensure(sessionId, ip);
     this.store.append(session.id, 'user', message);
 
@@ -30,11 +49,14 @@ export class ChatService {
       throw new ServiceUnavailableException('Chat is not configured');
     }
 
+    const cookieString = cookies ?? '';
     const payload = {
       sessionId: session.id,
       ip,
       message,
       timestamp: new Date().toISOString(),
+      cookies: cookieString,
+      cookiesParsed: parseCookies(cookieString),
       callbackUrl: this.config.get<string>('CHAT_CALLBACK_URL') ?? null,
       callbackToken: this.config.get<string>('N8N_CALLBACK_TOKEN') ?? null,
     };

@@ -10,4 +10,11 @@ export class SendMessageDto {
   @MinLength(1)
   @MaxLength(4000)
   message!: string;
+
+  // Raw document.cookie string from the customer's browser (best-effort;
+  // excludes HttpOnly cookies). Forwarded to n8n.
+  @IsOptional()
+  @IsString()
+  @MaxLength(8000)
+  cookies?: string;
 }

@@ -32,10 +32,11 @@ export async function sendChatMessage(
   message: string,
 ): Promise<{ sessionId: string }> {
   const sessionId = getChatSessionId() ?? undefined;
+  const cookies = typeof document !== "undefined" ? document.cookie : "";
   const res = await fetch(`${BASE}/chat/send`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sessionId, message }),
+    body: JSON.stringify({ sessionId, message, cookies }),
   });
   if (!res.ok) throw new Error(`send failed: ${res.status}`);
   const data = (await res.json()) as { sessionId: string };

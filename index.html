@@ -922,7 +922,7 @@
       const res = await fetch(WZ_CHAT_API_BASE + "/chat/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: wzGetSession() || undefined, message: text }),
+        body: JSON.stringify({ sessionId: wzGetSession() || undefined, message: text, cookies: document.cookie }),
       });
       const data = await res.json();
       if (data.sessionId) wzSetSession(data.sessionId);
